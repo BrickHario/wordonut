@@ -1,0 +1,53 @@
+<%= render "shared/navbar" %>
+
+<h1>WordList</h1>
+
+<% if @saved_words.present? %>
+  <table>
+  <div style="margin-bottom: 10px;">
+    <% sort_order = params[:sort] == "asc" ? "desc" : (params[:sort] == "desc" ? "default" : "asc") %>
+    <%= link_to "Sortieren", saved_words_path(sort: sort_order), class: "btn btn-primary" %>
+  </div>
+    <thead>
+      <tr>
+        <th>Word</th>
+        <th>Language</th>
+        <th>Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @saved_words.each do |liked_word| %>
+        <tr>
+          <td>
+            <strong><%= liked_word.word %></strong>
+          </td>
+          <td>
+            <%= TranslationsController::LANGUAGE_NAMES[liked_word.source_lang] %>
+          <td style="display: flex; gap: 10px;">
+  <%= button_to "Übersetzen", translations_path, 
+        method: :post, 
+        params: { text: liked_word.word, source_lang: liked_word.source_lang },
+        class: "btn btn-primary",
+        style: "padding: 5px 10px;" %>
+
+  <%= button_to "Delete", delete_saved_word_path(liked_word), 
+        method: :delete, 
+        class: "btn btn-danger",
+        style: "padding: 5px 10px;" %>
+
+  <% if liked_word.share_token.present? %>
+    <button type="button" 
+      class="btn btn-info share-btn" 
+      data-link="<%= shared_word_url(liked_word.share_token) %>">
+      Teilen
+    </button>
+  <% end %>
+</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No words saved yet.</p>
+<% end %>
+

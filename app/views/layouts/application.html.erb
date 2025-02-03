@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title><%= content_for(:title) || "MMP2a Test" %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= yield :head %>
+
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.png">
+
+  <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", media: "all" %>
+  <%= yield :extra_css %>
+</head>
+
+  <body>
+    <%= yield %>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll(".share-btn").forEach(button => {
+        button.addEventListener("click", function() {
+          const link = this.getAttribute("data-link");
+    
+          navigator.clipboard.writeText(link).then(() => {
+            this.innerText = "Kopiert!";
+            this.style.backgroundColor = "#28a745";
+            setTimeout(() => {
+              this.innerText = "Teilen";
+              this.style.backgroundColor = "";
+            }, 2000);
+          }).catch(err => {
+            alert("Failed to copy.");
+          });
+        });
+      });
+    });
+    </script>
+  </body>
+</html>
