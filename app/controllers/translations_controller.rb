@@ -26,21 +26,28 @@ class TranslationsController < ApplicationController
   
     render :main
   end
+
   skip_before_action :verify_authenticity_token, only: [:create]
+
   def create
     text = params[:text].to_s.strip
     source_lang = params[:source_lang].to_s.strip
-    
+  
     if text.blank? || source_lang.blank?
       flash[:alert] = "Type a word and select a language."
       redirect_to root_path and return
     end
   
+    if text.length > 20
+      flash[:alert] = "The word must not exceed 20 characters."
+      redirect_to root_path and return
+    end
+  
     session[:last_searched_word] = text
     session[:last_searched_lang] = source_lang
-    
+  
     target_langs = TARGET_LANGUAGES.reject { |lang| lang == source_lang }
-    
+  
     @source_language_name = LANGUAGE_NAMES[source_lang]
     @translations = translate_text(text, source_lang, target_langs)
     @word_data = fetch_word_data(text, @source_language_name)
@@ -55,7 +62,6 @@ class TranslationsController < ApplicationController
   end
   
   
-
   private
 
   def translate_with_azure(text, source_lang, target_lang, retries = 3)
