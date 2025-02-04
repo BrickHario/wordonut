@@ -4,20 +4,51 @@ class TranslationsController < ApplicationController
 
   TARGET_LANGUAGES = %w[da nl en fo de is nb sv ca fr gl it pt-pt ro es mt ar bs bg hr mk sr-Latn sl sk cs pl ru uk lv lt sq hy az eu et fi ka el hu kmr tr cy ga].freeze
   TRANSLITERATION_LANGUAGES = %w[hy ka el mk ru uk bg ar].freeze
-  LANGUAGE_NAMES = {'sq' => 'Albanian', 'hy' => 'Armenian', 'az' => 'Azerbaijani', 'eu' => 'Basque', 'bs' => 'Bosnian', 'bg' => 'Bulgarian', 'ca' => 'Catalan', 'hr' => 'Serbo-Croatian', 'cs' => 'Czech', 'da' => 'Danish', 'nl' => 'Dutch', 'en' => 'English', 'et' => 'Estonian', 'fo' => 'Faroese', 'fi' => 'Finnish', 'fr' => 'French', 'gl' => 'Galician', 'ka' => 'Georgian', 'de' => 'German', 'el' => 'Greek', 'hu' => 'Hungarian', 'is' => 'Icelandic', 'ga' => 'Irish', 'it' => 'Italian', 'kmr' => 'Kurdish', 'lv' => 'Latvian', 'lt' => 'Lithuanian', 'mk' => 'Macedonian', 'mt' => 'Maltese', 'nb' => 'Norwegian', 'pl' => 'Polish', 'pt-pt' => 'Portuguese', 'ro' => 'Romanian', 'ru' => 'Russian', 'sr-Latn' => 'Serbian', 'sk' => 'Slovak', 'sl' => 'Slovenian', 'es' => 'Spanish', 'sv' => 'Swedish', 'tr' => 'Turkish', 'uk' => 'Ukrainian', 'cy' => 'Welsh', 'ar' => 'Arabic'}.freeze
-  SIMILAR_LETTERS = { 'v' => ['w', 'f'], 'w' => ['v'], 'd' => ['t'], 't' => ['d'], 'b' => ['p'], 'p' => ['b', 'f'], 'f' => ['v', 'p'], 's' => ['z'], 'z' => ['s'], 'c' => ['k', 'ċ'], 'k' => ['c'], 'ä' => ['a', 'e'], 'ö' => ['o'], 'ü' => ['u'], 'u' => ['ü'], 'y' => ['i'], 'i' => ['y', 'j', 'í'], 'j' => ['i'], 'í' => ['i'], 'ħ' => ['h'], 'h' => ['ħ'], 'ë' => ['ă'], 'ă' => ['ë'], 'ċ' => ['c'] }.freeze
+  LANGUAGE_NAMES = {
+    'sq' => 'Albanian', 'hy' => 'Armenian', 'az' => 'Azerbaijani', 'eu' => 'Basque',
+    'bs' => 'Bosnian', 'bg' => 'Bulgarian', 'ca' => 'Catalan', 'hr' => 'Serbo-Croatian',
+    'cs' => 'Czech', 'da' => 'Danish', 'nl' => 'Dutch', 'en' => 'English',
+    'et' => 'Estonian', 'fo' => 'Faroese', 'fi' => 'Finnish', 'fr' => 'French',
+    'gl' => 'Galician', 'ka' => 'Georgian', 'de' => 'German', 'el' => 'Greek',
+    'hu' => 'Hungarian', 'is' => 'Icelandic', 'ga' => 'Irish', 'it' => 'Italian',
+    'kmr' => 'Kurdish', 'lv' => 'Latvian', 'lt' => 'Lithuanian', 'mk' => 'Macedonian',
+    'mt' => 'Maltese', 'nb' => 'Norwegian', 'pl' => 'Polish', 'pt-pt' => 'Portuguese',
+    'ro' => 'Romanian', 'ru' => 'Russian', 'sr-Latn' => 'Serbian', 'sk' => 'Slovak',
+    'sl' => 'Slovenian', 'es' => 'Spanish', 'sv' => 'Swedish', 'tr' => 'Turkish',
+    'uk' => 'Ukrainian', 'cy' => 'Welsh', 'ar' => 'Arabic'
+  }.freeze
+  SIMILAR_LETTERS = {
+    'v' => ['w', 'f'], 'w' => ['v'], 'd' => ['t'], 't' => ['d'], 'b' => ['p'],
+    'p' => ['b', 'f'], 'f' => ['v', 'p'], 's' => ['z'], 'z' => ['s'],
+    'c' => ['k', 'ċ'], 'k' => ['c'], 'ä' => ['a', 'e'], 'ö' => ['o'],
+    'ü' => ['u'], 'u' => ['ü'], 'y' => ['i'], 'i' => ['y', 'j', 'í'],
+    'j' => ['i'], 'í' => ['i'], 'ħ' => ['h'], 'h' => ['ħ'], 'ë' => ['ă'],
+    'ă' => ['ë'], 'ċ' => ['c']
+  }.freeze
 
   def new
     if params[:text].present? && params[:source_lang].present?
       session[:last_searched_word] = params[:text]
       session[:last_searched_lang] = params[:source_lang]
+      session[:normalized_source] ||= params[:source_lang].to_s.strip.downcase
     end
-  
+
     if session[:last_searched_word].present? && session[:last_searched_lang].present?
       @source_language_name = LANGUAGE_NAMES[session[:last_searched_lang]]
-      @translations = translate_text(session[:last_searched_word], session[:last_searched_lang], TARGET_LANGUAGES.reject { |lang| lang == session[:last_searched_lang] })
+      @translations = translate_text(
+        session[:last_searched_word],
+        session[:last_searched_lang],
+        TARGET_LANGUAGES.reject { |lang| lang == session[:last_searched_lang] }
+      )
       @word_data = fetch_word_data(session[:last_searched_word], @source_language_name)
-      @translated_synonyms = @word_data[:synonyms] || []
+  
+      english_word = if session[:last_searched_lang] == 'en'
+                       session[:last_searched_word]
+                     else
+                       (@translations["en"] && @translations["en"][:original]) || session[:last_searched_word]
+                     end
+  
+      @translated_synonyms = fetch_synonyms(english_word)
     else
       @translations = {}
       @word_data = {}
@@ -33,18 +64,25 @@ class TranslationsController < ApplicationController
     text = params[:text].to_s.strip
     source_lang = params[:source_lang].to_s.strip
   
+    session[:last_searched_word] = text
+    session[:last_searched_lang] = source_lang if source_lang.present?
+
+    session[:normalized_source] = source_lang.downcase
+  
     if text.blank? || source_lang.blank?
       flash[:alert] = "Type a word and select a language."
       redirect_to root_path and return
     end
-  
-    if text.length > 20
-      flash[:alert] = "The word must not exceed 20 characters."
+
+    if text.count(" ") > 3
+      flash[:alert] = "Type single words only."
       redirect_to root_path and return
     end
-  
-    session[:last_searched_word] = text
-    session[:last_searched_lang] = source_lang
+
+    if text.length > 20
+      flash[:alert] = "20 characters: Max. length"
+      redirect_to root_path and return
+    end
   
     target_langs = TARGET_LANGUAGES.reject { |lang| lang == source_lang }
   
@@ -58,11 +96,17 @@ class TranslationsController < ApplicationController
       @colors[lang] = similarity_color(@translations.dig(lang, :similarity), lang, source_lang)
     end
   
+    english_word = if source_lang == 'en'
+                     text
+                   else
+                     (@translations["en"] && @translations["en"][:original]) || text
+                   end
+    @translated_synonyms = fetch_synonyms(english_word)
+  
     render :main
   end
   
   
-  private
 
   def translate_with_azure(text, source_lang, target_lang, retries = 3)
     text = text.include?('/') ? text.split('/').first.strip : text.strip
@@ -73,12 +117,11 @@ class TranslationsController < ApplicationController
       "Ocp-Apim-Subscription-Region" => "westeurope"
     }
     body = [{ "Text" => text }].to_json
-  
+
     attempts = 0
     begin
       response = HTTParty.post(url, headers: headers, body: body, timeout: 10)
       result = response.parsed_response
-  
       translated_text = result.first["translations"].first["text"]
       return translated_text.include?('/') ? translated_text.split('/').first.strip : translated_text.strip
     rescue => e
@@ -92,8 +135,7 @@ class TranslationsController < ApplicationController
       end
     end
   end
-  
-  
+
   def translate_text(text, source_lang, target_langs)
     promises = target_langs.map do |lang|
       Concurrent::Promise.execute do
@@ -102,7 +144,7 @@ class TranslationsController < ApplicationController
           if translation.nil?
             raise "Failed translation: #{lang}"
           end
-  
+
           if TRANSLITERATION_LANGUAGES.include?(lang)
             transliterated = transliterate(translation, lang)
             similarity = calculate_similarity(text, transliterated[:transliterated])
@@ -119,7 +161,7 @@ class TranslationsController < ApplicationController
     end
 
     results = promises.map(&:value)
-  
+
     failed_languages = results.select { |r| r.values.first[:error] }.map(&:keys).flatten
     if failed_languages.any?
       failed_languages.each do |lang|
@@ -129,21 +171,20 @@ class TranslationsController < ApplicationController
         end
       end
     end
-  
+
     results.reduce({}, :merge)
   end
-  
-  
 
   def fetch_synonyms(word)
     require 'cgi'
-  
     api_url = "https://api.datamuse.com/words?rel_syn=#{CGI.escape(word)}"
     uri = URI(api_url)
     response = Net::HTTP.get(uri)
-  
     json_response = JSON.parse(response)
     json_response.map { |item| item['word'] }.take(5)
+  rescue StandardError => e
+    Rails.logger.error("Fehler beim Abrufen der Synonyme: #{e.message}")
+    []
   end
 
   def transliterate(text, lang)
@@ -159,6 +200,26 @@ class TranslationsController < ApplicationController
   end
 
   def fetch_word_data(word, source_language_name)
+    result = try_fetch_word_data(word, source_language_name)
+  
+    if result[:language_section].to_s.strip.empty? && word.present?
+      # uppercase version
+      alternate_word1 = word[0].upcase + word[1..-1]
+      result_alt1 = try_fetch_word_data(alternate_word1, source_language_name)
+  
+      # downcase version
+      alternate_word2 = word[0].downcase + word[1..-1]
+      result_alt2 = try_fetch_word_data(alternate_word2, source_language_name)
+  
+      # nimm zweite wenn keine gibt
+      result = result_alt1 unless result_alt1[:language_section].to_s.strip.empty?
+      result = result_alt2 unless result_alt2[:language_section].to_s.strip.empty?
+    end
+  
+    result
+  end
+  
+  def try_fetch_word_data(word, source_language_name)
     api_url = "https://en.wiktionary.org/w/api.php"
     uri = URI(api_url)
     params = {
@@ -179,6 +240,7 @@ class TranslationsController < ApplicationController
     language_section = extract_language_section(extract, source_language_name)
     verb_section = extract_verb_section(language_section)
     etymology = extract_etymology(language_section)
+  
     {
       title: page["title"],
       etymology: etymology,
@@ -187,81 +249,83 @@ class TranslationsController < ApplicationController
     }
   end
   
+
   def extract_language_section(text, source_language_name)
     return "" unless text
     match = text.match(/^==\s*#{Regexp.escape(source_language_name)}\s*==$\n+(.*)/m)
     match ? match[1].strip : ""
   end
-  
+
   def extract_verb_section(language_section)
     return "" unless language_section
-    match = language_section.match(/=== Adjective ===\s*([\s\S]*?)(?=\n==|\z)/) || language_section.match(/=== Noun ===\s*([\s\S]*?)(?=\n==|\z)/) || language_section.match(/=== Verb ===\s*([\s\S]*?)(?=\n==|\z)/)
+    match = language_section.match(/=== Adjective ===\s*([\s\S]*?)(?=\n==|\z)/) ||
+            language_section.match(/=== Noun ===\s*([\s\S]*?)(?=\n==|\z)/) ||
+            language_section.match(/=== Verb ===\s*([\s\S]*?)(?=\n==|\z)/)
     
     if match
       lines = match[1].strip.split("\n")
       lines.shift if lines.size > 1 # Entfernt erste Zeile
-      limited_lines = lines.first(10) # Begrenzt Anzahl Zeilen max. 10
-      processed_text = limited_lines.join("\n").strip
-      return processed_text
+      limited_lines = lines.first(10) # Max. 10 Zeilen
+      limited_lines.join("\n").strip
     end
   end
-  
-def extract_etymology(language_section)
+
+  def extract_etymology(language_section)
     return "" unless language_section
-    match = language_section.match(/=== Etymology ===\s*([\s\S]*?)(?=\n==|\z)/) || language_section.match(/=== Etymology 1 ===\s*([\s\S]*?)(?=\n==|\z)/)
+    match = language_section.match(/=== Etymology ===\s*([\s\S]*?)(?=\n==|\z)/) ||
+            language_section.match(/=== Etymology 1 ===\s*([\s\S]*?)(?=\n==|\z)/)
     match ? match[1].strip : ""
   end
-end
 
-def split_word_to_array(word)
-  return [] unless word.is_a?(String)
-  word.strip.downcase.split("")
+  def split_word_to_array(word)
+    return [] unless word.is_a?(String)
+    word.strip.downcase.split("")
   end
 
-def calculate_similarity(word1, word2)
-  array1 = split_word_to_array(word1)
-  array2 = split_word_to_array(word2)
+  def calculate_similarity(word1, word2)
+    array1 = split_word_to_array(word1)
+    array2 = split_word_to_array(word2)
 
-  max_length = [array1.length, array2.length].max
-  
-  difference = 0.0
+    max_length = [array1.length, array2.length].max
+    difference = 0.0
 
-  max_length.times do |i|
-    char1 = array1[i] || ""
-    char2 = array2[i] || ""
+    max_length.times do |i|
+      char1 = array1[i] || ""
+      char2 = array2[i] || ""
 
-    if char1 != char2
-      similar_match = TranslationsController::SIMILAR_LETTERS[char1]&.include?(char2) || TranslationsController::SIMILAR_LETTERS[char2]&.include?(char1)
-      if similar_match
-        difference += 0.5
-      else
-      has_match = (i > 0 && (array1[i - 1] == array2[i] || TranslationsController::SIMILAR_LETTERS[array1[i - 1]]&.include?(array2[i]))) ||
-            (i + 1 < max_length && (array1[i + 1] == array2[i] || TranslationsController::SIMILAR_LETTERS[array1[i + 1]]&.include?(array2[i])))
-      difference += has_match ? 0.5 : 1
+      if char1 != char2
+        similar_match = SIMILAR_LETTERS[char1]&.include?(char2) || SIMILAR_LETTERS[char2]&.include?(char1)
+        if similar_match
+          difference += 0.5
+        else
+          has_match = (i > 0 && (array1[i - 1] == array2[i] || SIMILAR_LETTERS[array1[i - 1]]&.include?(array2[i]))) ||
+                      (i + 1 < max_length && (array1[i + 1] == array2[i] || SIMILAR_LETTERS[array1[i + 1]]&.include?(array2[i])))
+          difference += has_match ? 0.5 : 1
+        end
       end
     end
+    penalty_shortwords = array1 == array2 ? 1.0 : { 2 => 0.8, 3 => 0.9, 4 => 0.95 }.fetch(array2.length, 1.0)
+    same_cap = array1 == array2 ? 1 : (array1[0] || "")[0] == (array2[0] || "")[0] ? 1.02 : 0.8
+    ((1 - (difference.to_f / max_length)) * penalty_shortwords) * same_cap
   end
-  penalty_shortwords = array1 == array2 ? 1.0 : { 2 => 0.8, 3 => 0.9, 4 => 0.95 }.fetch(array2.length, 1.0)
-  same_cap = array1 == array2 ? 1 : (array1[0] || "")[0] == (array2[0] || "")[0] ? 1.1 : 0.9
-  ((1 - (difference.to_f / max_length)) * penalty_shortwords) * same_cap
-end
+  def similarity_color(similarity, lang, source_lang)
+    normalized_lang = lang.to_s.strip.downcase
+    normalized_source = source_lang.to_s.strip.downcase
+    return "#0D1A0A" if normalized_lang == normalized_source  # schwarz
 
-def similarity_color(similarity, lang, source_lang)
-  return "#0D1A0A" if lang == source_lang # black
-  case similarity
-  when 0..10
-    "#D10F14" # red
-  when 11..30
-    "#F9875C" # light-red
-  when 31..60
-    "#B6D64F" # light-green
-  when 61..85
-    "#0DBC06" # green
-  when 86..100
-    "#004D00" # dark-green
-  else
-    "#8E8E8E" # grey
+    case similarity
+    when 0..10
+      "#D10F14" # rot
+    when 11..30
+      "#F9875C" # hellrot
+    when 31..60
+      "#B6D64F" # hellgrün
+    when 61..85
+      "#0DBC06" # grün
+    when 86..100
+      "#004D00" # dunkelgrün
+    else
+      "#8E8E8E" # grau
+    end
   end
 end
-
-

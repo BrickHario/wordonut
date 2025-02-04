@@ -21,7 +21,6 @@
   </div>
 <% end %>
 
-
 <%= form_with url: translations_path, method: :post, local: true do |form| %>
   <div>
     <%= form.label :text, "Translate word" %><br>
@@ -29,21 +28,24 @@
   </div>
 
   <div>
-  <%= form.label :source_lang, "Language" %><br>
-  <%= form.select :source_lang, 
-        TranslationsController::LANGUAGE_NAMES.map { |key, value| [value, key] }, 
-        { prompt: session[:last_searched_lang].present? ? nil : "Choose language" }, 
-        { selected: session[:last_searched_lang] || params[:source_lang] } %>
-</div>
-
+    <%= form.label :source_lang, "Language" %><br>
+    <%= form.select :source_lang, 
+          options_for_select(
+            TranslationsController::LANGUAGE_NAMES.map { |key, value| [value, key] },
+            session[:last_searched_lang] || params[:source_lang]
+          ),
+          { prompt: session[:last_searched_lang].present? ? nil : "Choose language" } %>
+  </div>
 
   <div>
     <%= form.submit "Translate" %>
   </div>
 <% end %>
+
 <% flash.each do |key, message| %>
-      <%= message %>
+  <%= message %>
 <% end %>
+
 
 <% if @word_data.present? %>
   <h2>Etymology:</h2>
@@ -53,43 +55,58 @@
   <p><%= @word_data[:verb_section].presence || "No meaning found." %></p>
   
   <h2>Synonyms:</h2>
-  <p><%= @translated_synonyms&.join(", ").presence || "No synonyms found." %></p>  
-
+  <p><%= @translated_synonyms&.join(", ").presence || "No synonyms found." %></p> 
+ 
 <% end %>
 
-<div style="display: flex; gap: 40px; align-items: flex-start;">
-  <% if @translations.present? && @translations.any? %>
-    <div>
-      <h2>Translations:</h2>
-      <ol style="list-style: none; padding: 0;">
-        <% @translations.each do |lang, translation| %>
-          <% color = similarity_color(translation[:similarity] || 0, lang, params[:source_lang]) %>
-          <li style="display: flex; align-items: center; gap: 10px; color: <%= color %>; white-space: nowrap;">
-            
-            <%= button_to translations_path, 
-                  method: :post, 
-                  params: { text: translation[:transliterated], source_lang: lang },
-                  class: "translation-link",
-                  style: "color: inherit; background: none; border: none; padding: 0; font: inherit; cursor: pointer; text-decoration: none;" do %>
-              <strong><%= TranslationsController::LANGUAGE_NAMES[lang] %>: </strong> 
-              <%= translation[:transliterated] %>
-            <% end %>
-
-            <% if TranslationsController::TRANSLITERATION_LANGUAGES.include?(lang) %>
-              <span>(<%= translation[:original] %>)</span>
-            <% end %>
-
-            <strong>&empty;</strong><%= translation[:similarity] %>%
-          </li>
-        <% end %>  
-      </ol>
-    </div>
-  <% end %>
-
+<div style="display: flex">
+  <div>
+    <% if @translations.present? && @translations.any? %>
+      <% language_groups = {
+           "Germanic" => %w[da nl en],
+           "Romance"  => %w[fr es pt-pt ro],
+           "Slavic"   => %w[ru uk pl cs],
+           "Other"    => %w[ru uk pl cs] }%>
+      
+      <% language_groups.each do |group_title, langs| %>
+        <% group_translations = @translations.select { |lang, translation| langs.include?(lang) } %>
+        <% if group_translations.any? %>
+          <div>
+            <h3><%= group_title %></h3>
+            <ol style="list-style: ; padding: 0;">
+              <% group_translations.each do |lang, translation| %>
+                <% source_lang = (params[:source_lang].presence || session[:last_searched_lang]).to_s.strip.downcase %>
+                <% color = similarity_color(translation[:similarity] || 0, lang, source_lang) %>
+                <li style="display: flex; align-items: center; gap: 10px; color: <%= color %>; white-space: nowrap;">
+                  <%= button_to translations_path, 
+                        method: :post, 
+                        params: { text: translation[:transliterated], source_lang: lang },
+                        class: "translation-link",
+                        style: "color: inherit; background: none; border: none; padding: 0; font: inherit; cursor: pointer; text-decoration: none;" do %>
+                    <strong><%= TranslationsController::LANGUAGE_NAMES[lang] %>: </strong>
+                    <%= translation[:transliterated] %>
+                  <% end %>
+  
+                  <% if TranslationsController::TRANSLITERATION_LANGUAGES.include?(lang) %>
+                    <span>(<%= translation[:original] %>)</span>
+                  <% end %>
+  
+                  <strong>&empty;</strong><%= translation[:similarity] %>%
+                </li>
+              <% end %>
+            </ol>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+  
+  <!-- Container für die Map -->
   <div>
     <%= render "map", colors: @colors %>
   </div>
 </div>
+
 
 </div>
 
