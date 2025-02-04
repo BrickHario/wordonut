@@ -63,13 +63,19 @@
   <div>
     <% if @translations.present? && @translations.any? %>
       <% language_groups = {
-           "Germanic" => %w[da nl en],
-           "Romance"  => %w[fr es pt-pt ro],
-           "Slavic"   => %w[ru uk pl cs],
-           "Other"    => %w[ru uk pl cs] }%>
-      
+           "Germanic" => %w[en nl de da sv nb fo is],
+           "Romance"  => %w[ro fr it es ca pt-pt gl],
+           "North-Slavic"   => %w[cs pl ru sk uk],
+           "South-Slavic"    => %w[hr sr-Latn bs sl mk bg],
+           "Celtic"    => %w[ga cy],
+           "Uralic"    => %w[et fi hu],
+           "Baltic"    => %w[lv lt],
+           "Turkic"    => %w[az tr],
+           "Semitic"    => %w[mt ar],
+           "Other"    => %w[sq el hy ka kmr eu]
+           }%>
       <% language_groups.each do |group_title, langs| %>
-        <% group_translations = @translations.select { |lang, translation| langs.include?(lang) } %>
+        <% group_translations = langs.map { |lang| [lang, @translations[lang]] }.to_h.compact %>
         <% if group_translations.any? %>
           <div>
             <h3><%= group_title %></h3>
@@ -77,7 +83,7 @@
               <% group_translations.each do |lang, translation| %>
                 <% source_lang = (params[:source_lang].presence || session[:last_searched_lang]).to_s.strip.downcase %>
                 <% color = similarity_color(translation[:similarity] || 0, lang, source_lang) %>
-                <li style="display: flex; align-items: center; gap: 10px; color: <%= color %>; white-space: nowrap;">
+                <li style="display: flex; align-items: center; color: <%= color %>; white-space: nowrap;">
                   <%= button_to translations_path, 
                         method: :post, 
                         params: { text: translation[:transliterated], source_lang: lang },
@@ -88,10 +94,10 @@
                   <% end %>
   
                   <% if TranslationsController::TRANSLITERATION_LANGUAGES.include?(lang) %>
-                    <span>(<%= translation[:original] %>)</span>
+                    <span> (<%= translation[:original] %>) </span>
                   <% end %>
   
-                  <strong>&empty;</strong><%= translation[:similarity] %>%
+                   &nbsp;<%= translation[:similarity] %>%
                 </li>
               <% end %>
             </ol>
