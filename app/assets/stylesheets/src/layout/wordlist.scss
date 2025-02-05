@@ -1,0 +1,137 @@
+#wordlist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: var(--white);
+
+    svg {
+        background-color: transparent;
+    }
+
+    hgroup {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 1rem;
+    }
+
+    .table-div {
+        overflow-x: auto;
+        min-height: 70vh;
+        background-color: var(--light-blue);
+    }
+
+    .word-table {
+        border-collapse: collapse;
+        table-layout: auto;
+        border-spacing: 0;
+
+        th, td {
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+
+        tr {
+            border: none;
+
+            &:nth-child(even) {
+                background-color: var(--light-white);
+            }
+        }
+
+        thead {
+            background-color: var(--dark-blue);
+            color: var(--white);
+
+            th {
+                background-color: var(--dark-blue);
+            }
+        }
+
+        tbody tr td a {
+            svg {
+                height: 23px; // Standardgröße für SVGs in Mobilansicht
+            }
+        }
+    }
+
+    .sort {
+        fill: var(--black);
+        transition: fill 0.5s ease-in-out;
+        height: 25px;
+
+        &:hover {
+            fill: var(--gray);
+        }
+    }
+
+    .translation-link {
+        fill: var(--yellow);
+    }
+
+    .icon-delete {
+        fill: var(--red);
+    }
+
+    @media (min-width: 768px) {
+        img {
+            width: 20px;
+        }
+
+        hgroup {
+            width: 75%;
+        }
+
+        .table-div {
+            width: 75%;
+        }
+
+        .word-table {
+            background-color: var(--light-blue);
+            width: 100%;
+
+            th, td {
+                padding: 20px;
+            }
+
+            tbody tr td a {
+                svg {
+                    height: 30px;
+                }
+            }
+        }
+
+        .sort-icon img {
+            width: 15px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        img {
+            width: 18px;
+        }
+
+        hgroup {
+            width: 95%;
+        }
+
+        .table-div {
+            width: 100%;
+        }
+
+        .word-table {
+            width: 100%;
+
+            thead th {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 15px;
+            }
+        }
+    }
+}

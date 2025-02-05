@@ -1,34 +1,29 @@
 <%= render "shared/navbar" %>
 
-<h1>My profile</h1>
+<main>
+  <section id="profile">
+    <h1>My Profile</h1>
+    <div class="pro-form">
+      <%= form_with url: "/update-email", method: :post, local: true do %>
+        <h2>Change Email:</h2>
+        <%= label_tag :email, "", for: "email" %>
+<%= email_field_tag :email, nil, placeholder: @user.email, required: true, id: "email" %>
+        <%= submit_tag "Save", class: "save-btn" %>
+      <% end %>
 
-<!-- E-Mail bearbeiten -->
-<h2>Email bearbeiten</h2>
-<%= form_with model: @user, url: update_email_profile_path, method: :patch, local: true do |form| %>
-  <div>
-    <%= form.label :email, "New Email" %><br>
-    <%= form.email_field :email, value: @user.email, required: true %>
-  </div>
-  <div>
-    <%= form.submit "Save email" %>
-  </div>
-<% end %>
+      <%= form_with url: "/update-password", method: :post, local: true do %>
+        <h2>Change Password:</h2>
+        <%= label_tag :old_password, "", for: "old-password" %>
+        <%= password_field_tag :old_password, nil, placeholder: "Enter old password", required: true, id: "old-password" %>
+        <%= label_tag :new_password, "", for: "new-password" %>
+        <%= password_field_tag :new_password, nil, placeholder: "Enter new password", required: true, id: "new-password" %>
+        <%= submit_tag "Save", class: "save-btn" %>
+      <% end %>
 
-<h2>Passwort ändern</h2>
-<%= form_with model: @user, url: update_password_profile_path, method: :patch, local: true do |form| %>
-  <div>
-    <%= form.label :password, "New passwort" %><br>
-    <%= form.password_field :password, placeholder: "Type new password", required: true %>
-  </div>
+      <%= button_to "Delete account", "/delete-account", method: :post, class: "delete-btn" %>
+    </div>
+  </section>
+</main>
 
-  <div>
-    <%= form.label :password_confirmation, "Confirm password" %><br>
-    <%= form.password_field :password_confirmation, placeholder: "Confirm password", required: true %>
-  </div>
+<%= render "shared/footer" %>
 
-  <div>
-    <%= form.submit "Password save" %>
-  </div>
-<% end %>
-
-<%= button_to "Account löschen", delete_account_path, method: :delete, class: "btn btn-danger" %>

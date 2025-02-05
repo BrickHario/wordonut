@@ -1,0 +1,26 @@
+footer{
+    background-color: var(--dark-blue);
+    color: var(--white);
+    display: flex;
+}
+
+@media (min-width: 768px){
+    footer{
+        padding: 1rem;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+@media (max-width: 768px){
+    footer{
+        padding: 1rem;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    .map-footer{
+        display: none;
+    }
+}
