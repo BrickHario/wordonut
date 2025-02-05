@@ -1,78 +1,191 @@
 <%= render "shared/navbar" %>
 
 <main>
-        <section id="map">
-            
-        <%= form_with url: translations_path, method: :post, local: true, data: { turbo: false } do |form| %>
-          <div>
-            <%= form.text_area :text, rows: 3, placeholder: "Enter your word...", value: session[:last_searched_word].presence || "" %>
-          </div>
-        
-          <div>
-            <%= form.select :source_lang, 
-                  options_for_select(
-                    TranslationsController::LANGUAGE_NAMES.map { |key, value| [value, key] },
-                    session[:last_searched_lang] || params[:source_lang]
-                  ),
-                  { prompt: session[:last_searched_lang].present? ? nil : "Choose language" } %>
-          </div>
-        
-          <div>
-            <%= form.submit "Translate" %>
-          </div>
-        <% end %>
-        <% flash.each do |key, message| %>
-          <%= message %>
-        <% end %>
-
-        <% if @word_data.present? %>
-  <h2>Etymology:</h2>
-  <p><%= @word_data[:etymology].presence || "No etymology found." %></p>
-
-  <h2>Meaning:</h2>
-  <p><%= @word_data[:verb_section].presence || "No meaning found." %></p>
+<div class="info-menu">
+                <ul>
+                    <li class="toggle-info" data-target="info" ><svg viewBox="0 0 206 206" xmlns="http://www.w3.org/2000/svg" class="info">
+                        <path d="M103 145.917C105.432 145.917 107.472 145.093 109.12 143.445C110.768 141.797 111.589 139.76 111.584 137.333V103C111.584 100.568 110.76 98.531 109.112 96.8887C107.464 95.2464 105.427 94.4224 103 94.4167C100.574 94.411 98.537 95.235 96.889 96.8887C95.241 98.5424 94.417 100.58 94.417 103V137.333C94.417 139.765 95.241 141.805 96.889 143.453C98.537 145.101 100.574 145.922 103 145.917ZM103 77.25C105.432 77.25 107.472 76.426 109.12 74.778C110.768 73.13 111.589 71.0929 111.584 68.6667C111.578 66.2405 110.754 64.2034 109.112 62.5554C107.469 60.9074 105.432 60.0834 103 60.0834C100.568 60.0834 98.5313 60.9074 96.889 62.5554C95.2467 64.2034 94.4227 66.2405 94.417 68.6667C94.4113 71.0929 95.2353 73.1329 96.889 74.7866C98.5427 76.4403 100.58 77.2615 103 77.25ZM103 188.833C91.1267 188.833 79.9684 186.579 69.5253 182.07C59.0823 177.561 49.9983 171.446 42.2733 163.727C34.5483 156.008 28.4341 146.924 23.9307 136.475C19.4273 126.026 17.1727 114.868 17.167 103C17.1613 91.1321 19.4158 79.9738 23.9307 69.525C28.4455 59.0762 34.5597 49.9922 42.2733 42.2729C49.9868 34.5537 59.0708 28.4395 69.5253 23.9304C79.9798 19.4212 91.1382 17.1667 103 17.1667C114.862 17.1667 126.021 19.4212 136.475 23.9304C146.93 28.4395 156.014 34.5537 163.727 42.2729C171.441 49.9922 177.558 59.0762 182.079 69.525C186.599 79.9738 188.851 91.1321 188.834 103C188.817 114.868 186.562 126.026 182.07 136.475C177.578 146.924 171.464 156.008 163.727 163.727C155.991 171.446 146.907 177.563 136.475 182.078C126.044 186.593 114.885 188.845 103 188.833ZM103 171.667C122.17 171.667 138.407 165.015 151.711 151.71C165.015 138.406 171.667 122.169 171.667 103C171.667 83.8306 165.015 67.5938 151.711 54.2896C138.407 40.9854 122.17 34.3334 103 34.3334C83.8309 34.3334 67.5941 40.9854 54.2899 54.2896C40.9858 67.5938 34.3337 83.8306 34.3337 103C34.3337 122.169 40.9858 138.406 54.2899 151.71C67.5941 165.015 83.8309 171.667 103 171.667Z">
+                        </svg></li>
+                    <li class="toggle-info" data-target="translation"><svg viewBox="0 0 165 169" xmlns="http://www.w3.org/2000/svg" class="translation">
+                        <path d="M90.75 59.15H78.2925C73.095 59.15 67.98 61.685 65.175 65.065L57.75 42.25H34.0725L14.355 101.4H28.2975L34.4025 84.5H57.75V118.3H16.5C7.425 118.3 0 110.695 0 101.4V42.25C0 32.955 7.425 25.35 16.5 25.35H74.25C83.325 25.35 90.75 32.955 90.75 42.25V59.15ZM53.7075 76.05H37.0425L45.2925 51.2915L53.7075 76.05ZM82.5 67.6H140.25C149.325 67.6 156.75 75.205 156.75 84.5V143.65C156.75 152.945 149.325 160.55 140.25 160.55H82.5C73.425 160.55 66 152.945 66 143.65V84.5C66 75.205 73.425 67.6 82.5 67.6ZM142.312 109.85V100.724H116.16V82.3875H106.59V100.724H80.4375V109.85H90.9975C91.905 117.033 95.6175 125.483 101.558 131.989C94.38 135.031 85.965 137.228 82.5 137.228C82.4175 137.397 84.315 145.425 84.15 149.565C91.08 149.565 102.382 145.34 111.21 139.847C120.202 145.34 131.67 149.565 138.765 149.565C138.6 145.425 140.415 137.397 140.415 137.228C136.868 137.228 128.123 134.947 120.78 131.905C126.555 125.398 130.185 116.948 131.093 109.85H142.312ZM110.88 126.159C106.755 122.272 103.868 116.61 102.548 109.85H119.79C118.388 116.61 115.583 122.272 111.54 126.159L111.21 126.412C111.21 126.412 110.962 126.243 110.88 126.159Z"/>
+                        </svg>
+                        </li>
+                    <li class="toggle-info" data-target="save"><svg viewBox="0 0 131 185" xmlns="http://www.w3.org/2000/svg"  class="save">
+                        <path d="M7 38.1519C7 27.2488 7 21.7972 9.1255 17.6306C10.995 13.9673 13.978 10.9888 17.647 9.12223C21.82 7 27.28 7 38.2 7H92.8C103.72 7 109.18 7 113.353 9.12223C117.022 10.9888 120.005 13.9673 121.874 17.6306C124 21.7972 124 27.2488 124 38.1519V167.676C124 172.407 124 174.773 123.015 176.067C122.59 176.631 122.047 177.095 121.424 177.427C120.801 177.76 120.113 177.954 119.408 177.995C117.779 178.092 115.81 176.778 111.871 174.159L65.5 143.29L19.129 174.15C15.19 176.778 13.2205 178.092 11.5825 177.995C10.8789 177.952 10.1929 177.758 9.57178 177.425C8.95067 177.093 8.40921 176.629 7.98475 176.067C7 174.773 7 172.407 7 167.676V38.1519Z"/>
+                        </svg>
+                        </li>
+                </ul>
+            </div>
+  <section id="map">
+  <%= form_with url: translations_path, method: :post, local: true, data: { turbo: false } do |form| %>
+    <div class="input-group">
+      <%= form.text_field :text,
+            placeholder: "Enter your word...",
+            required: true,
+            id: "search",
+            value: session[:last_searched_word].presence || ""%>
+      <%= form.select :source_lang,
+            options_for_select(
+              TranslationsController::LANGUAGE_NAMES.map { |key, value| [value, key] },
+              session[:last_searched_lang] || params[:source_lang]
+            ),
+            { prompt: session[:last_searched_lang].present? ? nil : "Choose language" } %>
+    </div>
+    <div>
+      <%= form.submit "Translate", class: "submit"%>
+    </div>
+  <% end %>
   
-  <h2>Synonyms:</h2>
-  <p><%= @translated_synonyms&.join(", ").presence || "No synonyms found." %></p>
-  <% else %>
-            <div id="info" class="search-info">
-                <div class="text">
-                    <h1>Enter a word to discover its origins, meanings, synonyms, and how it connects with other languages around the world.</h1>
-                    <h2>Tips for Better Results:</h2>
-                    <ul>
-                        <li>If you don’t get a suitable response, try changing the case of the first letter (e.g., 'Apple' vs. 'apple')</li>
-                        <li>Use singular forms for nouns and base forms for verbs for better accuracy.</li>
-                        <li>Use the language dropdown to refine your search.</li>
-                        <li>Avoid adding punctuation or extra characters when searching for a word.</li>
-                        <li>Try searching for common synonyms if your word doesn't yield results.</li>
-                    </ul>
-                </div>
-                
-            </div>
-            <% end%>
+  <% flash.each do |key, message| %>
+    <%= message %>
+  <% end %>
+  
 
-            <div id="translation" class="search-info">
-                <div class="text">
-                    <h1>The map highlights similarities between the word you searched and its counterparts in other European languages</h1>
-                    <h2>How to Read the Map</h2>
-                    <ul>
-                        <li>Color Key:<br/>
-                            <strong>Green:</strong> The word is almost identical in the highlighted language.<br/>
-                            <strong>Yellow:</strong> The word is moderately similar (about 50-70%). Orange: The word shares slight similarities (below 50%).<br/>
-                            <strong>Red:</strong> The word is not similar at all.</li>
-                        <li>In this section, you’ll find a detailed list sorted by language families (e.g., Romance, Germanic, Slavic).</li>
-                    </ul>
-                </div>
-            </div>
-        
-            <div id="save" class="search-info">
-                <div class="text">
-                    <h1>Log into your account and save words!</h1>
-                    <p><a href="login.html" class="link-login">Login</a> or <a href="signin.html" class="link-login">register</a> here</p>
-                </div>
-            </div>
-        </section>
-    </main>
+    <div id="info" class="search-info">
+    <% if @word_data.present? %>
+      <h1>
+        <%= @word_data[:title] %> (<%= @source_language_name %>)
+      </h1>
+      <h2>Etymology:</h2>
+      <p>
+        <%= @word_data[:etymology].presence || "No etymology found." %>
+      </p>
+      <h2>Meaning:</h2>
+      <p>
+        <%= @word_data[:verb_section].presence || "No meaning found." %>
+      </p>
+        <h2>Synonyms:</h2>
+      <p>
+        <%= @translated_synonyms&.join(", ").presence || "No synonyms found." %>
+      </p>
+      <% else %>
+        <div class="text">
+          <h1>
+          Enter a word to discover its origins, meanings, synonyms, and how it connects with other languages around the world.
+          </h1>
+          <h2>Tips for Better Results:</h2>
+          <ul>
+          <li>
+            If you don’t get a suitable response, try changing the case of the first letter (e.g.,  'Apple' vs. 'apple').
+          </li>
+            <li>
+              Use singular forms for nouns and base forms for verbs for better accuracy.
+          </li>
+          <li>
+            Use the language dropdown to refine your search.
+            </li>
+          <li>
+            Avoid adding punctuation or extra characters when searching for a word.
+          </li>
+          <li>
+            Try searching for common synonyms if your word doesn't yield results.
+            </li>
+        </ul>
+        </div>
+      <% end %>
+    </div>
+
+    <div id="translation" class="search-info">
+    <% if @translations.present? && @translations.any? %>
+      <% language_groups = {
+          "Germanic"      => %w[en nl de da sv nb fo is],
+          "Romance"       => %w[ro fr it es ca pt-pt gl],
+          "North-Slavic"  => %w[sk cs pl ru uk],
+          "South-Slavic"  => %w[hr sr-Latn bs sl mk bg],
+          "Celtic"        => %w[ga cy],
+          "Uralic"        => %w[et fi hu],
+          "Baltic"        => %w[lv lt],
+          "Turkic"        => %w[az tr],
+          "Semitic"       => %w[mt ar],
+          "Other"         => %w[sq el hy ka kmr eu]
+        } %>
+
+      <% language_groups.each do |group_title, langs| %>
+        <% group_translations = langs.map { |lang| [lang, @translations[lang]] }.to_h.compact %>
+        <% if group_translations.any? %>
+          <div>
+            <h3><%= group_title %></h3>
+            <ol>
+              <% group_translations.each do |lang, translation| %>
+                <% source_lang = (params[:source_lang].presence || session[:last_searched_lang]).to_s.strip.downcase %>
+                <% color = similarity_color(translation[:similarity] || 0, lang, source_lang) %>
+                <li style="color: <%= color %>;">
+                  <%= button_to translations_path,
+                        method: :post,
+                        params: { text: translation[:transliterated], source_lang: lang },
+                        data: { turbo: false },
+                        class: "translation-link",
+                        style: "color: inherit; background: none; border: none; padding: 0; font: inherit; cursor: pointer; text-decoration: none;" do %>
+                    <strong><%= TranslationsController::LANGUAGE_NAMES[lang] %>: </strong>
+                    <%= translation[:transliterated] %>
+                  <% end %>
+
+                  <% if TranslationsController::TRANSLITERATION_LANGUAGES.include?(lang) %>
+                    <span> (<%= translation[:original] %>) </span>
+                  <% end %>
+                  &nbsp;<%= translation[:similarity] %>%
+                </li>
+              <% end %>
+            </ol>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <div class="text">
+        <h1>
+          The map highlights similarities between the word you searched and its counterparts in other European languages
+        </h1>
+        <h2>How to Read the Map</h2>
+        <ul>
+          <li>
+            Color Key:<br/>
+            <strong>Green:</strong> The word is almost identical in the highlighted language.<br/>
+            <strong>Yellow:</strong> The word is moderately similar (about 50-70%). Orange: The word shares slight similarities (below 50%).<br/>
+            <strong>Red:</strong> The word is not similar at all.
+          </li>
+          <li>
+            In this section, you’ll find a detailed list sorted by language families (e.g., Romance, Germanic, Slavic).
+          </li>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
+  <div id="save" class="search-info">
+  <% if current_user && @word_data.present? %>
+    <div>
+      <% if current_user.liked_words.exists?(word: @word_data[:title], source_lang: params[:source_lang]) %>
+        <p>Already saved this word</p>
+      <% else %>
+        <p>Add word to my WordList:</p>
+        <div class="added_group">
+        <p>Word was added!</p>
+        <p>Go to the <%= form_with url: save_word_path, method: :post, local: true do |form| %>
+          <%= hidden_field_tag :word, @word_data[:title] %>
+          <%= hidden_field_tag :source_lang, params[:source_lang] %>
+          <%= submit_tag "Save Word", class: "save-word-button" %></p>
+          </div>
+          <p><span>My WordList: </span><%= current_user.liked_words.count %> words</p>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text">
+      <h1>Log into your account and save words!</h1>
+      <p>
+  <%= link_to "Login", login_path, class: "link-login" %> or 
+  <%= link_to "Register", signup_path, class: "link-login" %> here.
+</p>
+
+    </div>
+  <% end %>
+  </div>
+
+  <div class="map">
+    <%= render "map", colors: @colors %>
+  </div>
+  </section>
+</main>
 
 <%= render "shared/footer" %>
 
