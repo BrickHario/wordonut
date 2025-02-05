@@ -1,53 +1,31 @@
 <%= render "shared/navbar" %>
 
-<% if @word_data.present? %>
-<h1><%= @word_data[:title]%> (<%= @source_language_name %>)</h1>
-<% else %>
-<h1>No word searched yet..</h1>
-<% end %>
+<main>
+        <section id="map">
+            
+        <%= form_with url: translations_path, method: :post, local: true, data: { turbo: false } do |form| %>
+          <div>
+            <%= form.text_area :text, rows: 3, placeholder: "Enter your word...", value: session[:last_searched_word].presence || "" %>
+          </div>
+        
+          <div>
+            <%= form.select :source_lang, 
+                  options_for_select(
+                    TranslationsController::LANGUAGE_NAMES.map { |key, value| [value, key] },
+                    session[:last_searched_lang] || params[:source_lang]
+                  ),
+                  { prompt: session[:last_searched_lang].present? ? nil : "Choose language" } %>
+          </div>
+        
+          <div>
+            <%= form.submit "Translate" %>
+          </div>
+        <% end %>
+        <% flash.each do |key, message| %>
+          <%= message %>
+        <% end %>
 
-<% if current_user && @word_data.present? %>
-  <div>
-    <% if current_user.liked_words.exists?(word: @word_data[:title], source_lang: params[:source_lang]) %>
-      <p>Already saved this word</p>
-    <% else %>
-      <%= form_with url: save_word_path, method: :post, local: true do |form| %>
-        <%= hidden_field_tag :word, @word_data[:title] %>
-        <%= hidden_field_tag :source_lang, params[:source_lang] %>
-        <%= submit_tag "Save Word", 
-              class: "save-word-button" %>
-      <% end %>
-    <% end %>
-  </div>
-<% end %>
-
-<%= form_with url: translations_path, method: :post, local: true, data: { turbo: false } do |form| %>
-  <div>
-    <%= form.label :text, "Translate word" %><br>
-    <%= form.text_area :text, rows: 3, placeholder: "Write here...", value: session[:last_searched_word].presence || "" %>
-  </div>
-
-  <div>
-    <%= form.label :source_lang, "Language" %><br>
-    <%= form.select :source_lang, 
-          options_for_select(
-            TranslationsController::LANGUAGE_NAMES.map { |key, value| [value, key] },
-            session[:last_searched_lang] || params[:source_lang]
-          ),
-          { prompt: session[:last_searched_lang].present? ? nil : "Choose language" } %>
-  </div>
-
-  <div>
-    <%= form.submit "Translate" %>
-  </div>
-<% end %>
-
-<% flash.each do |key, message| %>
-  <%= message %>
-<% end %>
-
-
-<% if @word_data.present? %>
+        <% if @word_data.present? %>
   <h2>Etymology:</h2>
   <p><%= @word_data[:etymology].presence || "No etymology found." %></p>
 
@@ -55,67 +33,46 @@
   <p><%= @word_data[:verb_section].presence || "No meaning found." %></p>
   
   <h2>Synonyms:</h2>
-  <p><%= @translated_synonyms&.join(", ").presence || "No synonyms found." %></p> 
- 
-<% end %>
+  <p><%= @translated_synonyms&.join(", ").presence || "No synonyms found." %></p>
+  <% else %>
+            <div id="info" class="search-info">
+                <div class="text">
+                    <h1>Enter a word to discover its origins, meanings, synonyms, and how it connects with other languages around the world.</h1>
+                    <h2>Tips for Better Results:</h2>
+                    <ul>
+                        <li>If you don’t get a suitable response, try changing the case of the first letter (e.g., 'Apple' vs. 'apple')</li>
+                        <li>Use singular forms for nouns and base forms for verbs for better accuracy.</li>
+                        <li>Use the language dropdown to refine your search.</li>
+                        <li>Avoid adding punctuation or extra characters when searching for a word.</li>
+                        <li>Try searching for common synonyms if your word doesn't yield results.</li>
+                    </ul>
+                </div>
+                
+            </div>
+            <% end%>
 
-<div style="display: flex">
-  <div>
-    <% if @translations.present? && @translations.any? %>
-      <% language_groups = {
-           "Germanic" => %w[en nl de da sv nb fo is],
-           "Romance"  => %w[ro fr it es ca pt-pt gl],
-           "North-Slavic"   => %w[sk cs pl ru uk],
-           "South-Slavic"    => %w[hr sr-Latn bs sl mk bg],
-           "Celtic"    => %w[ga cy],
-           "Uralic"    => %w[et fi hu],
-           "Baltic"    => %w[lv lt],
-           "Turkic"    => %w[az tr],
-           "Semitic"    => %w[mt ar],
-           "Other"    => %w[sq el hy ka kmr eu]
-           }%>
-      <% language_groups.each do |group_title, langs| %>
-        <% group_translations = langs.map { |lang| [lang, @translations[lang]] }.to_h.compact %>
-        <% if group_translations.any? %>
-          <div>
-            <h3><%= group_title %></h3>
-            <ol style="padding: 0;">
-              <% group_translations.each do |lang, translation| %>
-                <% source_lang = (params[:source_lang].presence || session[:last_searched_lang]).to_s.strip.downcase %>
-                <% color = similarity_color(translation[:similarity] || 0, lang, source_lang) %>
-                <li style="display: flex; align-items: center; color: <%= color %>; white-space: nowrap;">
-                  <%= button_to translations_path, 
-      method: :post, 
-      params: { text: translation[:transliterated], source_lang: lang },
-      data: { turbo: false },
-      class: "translation-link",
-      style: "color: inherit; background: none; border: none; padding: 0; font: inherit; cursor: pointer; text-decoration: none;" do %>
-                    <strong><%= TranslationsController::LANGUAGE_NAMES[lang] %>: </strong>
-                    <%= translation[:transliterated] %>
-                  <% end %>
-  
-                  <% if TranslationsController::TRANSLITERATION_LANGUAGES.include?(lang) %>
-                    <span> (<%= translation[:original] %>) </span>
-                  <% end %>
-  
-                   &nbsp;<%= translation[:similarity] %>%
-                </li>
-              <% end %>
-            </ol>
-          </div>
-        <% end %>
-      <% end %>
-    <% end %>
-  </div>
-  
-  <!-- Container für die Map -->
-  <div>
-    <%= render "map", colors: @colors %>
-  </div>
-</div>
-
-
-</div>
+            <div id="translation" class="search-info">
+                <div class="text">
+                    <h1>The map highlights similarities between the word you searched and its counterparts in other European languages</h1>
+                    <h2>How to Read the Map</h2>
+                    <ul>
+                        <li>Color Key:<br/>
+                            <strong>Green:</strong> The word is almost identical in the highlighted language.<br/>
+                            <strong>Yellow:</strong> The word is moderately similar (about 50-70%). Orange: The word shares slight similarities (below 50%).<br/>
+                            <strong>Red:</strong> The word is not similar at all.</li>
+                        <li>In this section, you’ll find a detailed list sorted by language families (e.g., Romance, Germanic, Slavic).</li>
+                    </ul>
+                </div>
+            </div>
+        
+            <div id="save" class="search-info">
+                <div class="text">
+                    <h1>Log into your account and save words!</h1>
+                    <p><a href="login.html" class="link-login">Login</a> or <a href="signin.html" class="link-login">register</a> here</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
 <%= render "shared/footer" %>
 
