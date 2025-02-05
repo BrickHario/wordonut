@@ -1,0 +1,49 @@
+:root {
+
+    /*colors*/
+    --black: #191919;
+    --gray: #4E4E4E;
+    --light-gray: #BEBEBE;
+    --dark-blue: #001D3D;
+    --blue: #043695;
+    --light-blue: #E9FAFF;
+
+    --light-white: #F9F9F9;
+    --white: #FEFEF6;
+
+    --red-contrast: #FF0000;
+    --yellow-contrast: #FFCC00;
+
+    /*colors for map*/
+    --map-blue: #D2F4FF;
+    --green: #0FB636;
+    --orange: #E78427;
+    --red: #AB0303;
+    --yellow: #E4B808;
+
+    --fts:  1.2rem;
+
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-weight: 100 900;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/inter/v13/UcCo3FwrK3iLTcviYwY.woff2) format('woff2');
+}
+
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter';
+}
+
+section{
+    min-height: 90vh;
+}
+
+#login, #wordlist, #profile{
+    background-color: var(--white);
+    padding-bottom: 5rem;
+}

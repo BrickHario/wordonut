@@ -1,0 +1,117 @@
+header {
+    background-color: var(--blue);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5rem 2rem;
+    align-items: center;
+  }
+  
+  .navmenu {
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+  
+      li {
+        a {
+          text-decoration: none;
+          color: var(--white);
+  
+          &:hover {
+            color: var(--yellow);
+            border-bottom: solid 2px var(--yellow);
+          }
+        }
+      }
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .logo {
+      width: 60%;
+    }
+  
+    .hamburger {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    header {
+      padding: 0.5rem 1rem;
+  
+      .logo-link {
+        z-index: 5;
+      }
+    }
+  
+    .hamburger {
+      all: unset;
+      position: absolute;
+      z-index: 3;
+      inset-block-start: 0;
+      inset-inline-end: 0;
+      padding: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      height: 24px;
+      width: 30px;
+  
+      [class^="line-"] {
+        height: 3px;
+        background-color: var(--white);
+        transition: all 0.3s ease-out;
+      }
+  
+      &.mobile-menu-open {
+        .line-1 {
+          transform: rotate(-45deg) translateY(7px) translateX(-2px);
+        }
+        .line-2 {
+          transform: rotate(45deg) translateY(-8px) translateX(-3px);
+        }
+      }
+    }
+  
+    .navmenu {
+      ul {
+        position: fixed;
+        inset-block-start: 0;
+        inset-inline-end: 0;
+        transform: translateX(100%);
+        transition: all 0.25s ease-out;
+        background-color: var(--blue);
+        list-style: none;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 1.8rem;
+        margin: 0;
+        padding: 6rem 1rem;
+        z-index: 2;
+  
+        &.mobile-menu-open {
+          visibility: visible;
+          transform: translateX(0);
+        }
+  
+        li {
+          a {
+            font-size: 2rem;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  
+    .logo {
+      width: 50%;
+    }
+  }
+  
