@@ -308,7 +308,7 @@ class TranslationsController < ApplicationController
       end
     end
     penalty_shortwords = array1 == array2 ? 1.0 : { 2 => 0.8, 3 => 0.9, 4 => 0.95 }.fetch(array2.length, 1.0)
-    same_cap = array1 == array2 ? 1 : (array1[0] == array2[0] || array1[1] == array2[1]) ? 1.02 : 0.5
+    same_cap = array1 == array2 ? 1 : (array1[0] == array2[0] || array1[0] == array2[1]) ? 1.02 : 0.5
 
     ((1 - (difference.to_f / max_length)) * penalty_shortwords) * same_cap
   end
