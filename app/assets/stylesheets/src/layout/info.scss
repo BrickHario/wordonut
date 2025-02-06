@@ -6,6 +6,14 @@
     right: 0;
     top: 0;
     z-index: 1;
+    .save-sec {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .save-word-button {
+            cursor: pointer;
+        }
+    }
     .added-group {
         margin: 20px 0;
     }
@@ -71,7 +79,7 @@
         }
         h1{
             font-size: 1.6rem;
-            margin: 1rem;
+            text-align: left;
         }
         h2{
             font-size: 1.2rem;

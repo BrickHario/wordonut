@@ -1,5 +1,5 @@
 :root {--blk: #0f0f0f;}
-svg {height: auto; stroke-width: 2;}
+svg {height: auto; stroke-width: 2; width: 100%;}
 svg polygon:not(.region):not(.x), svg path:not(.region):not(.x), svg polyline:not(.region):not(.x) {stroke:var(--blk); stroke-linejoin:bevel; stroke-miterlimit:10;}
 .region {stroke: var(--blk); stroke-linejoin: bevel; stroke-miterlimit: 10;}
 .land { stroke: var(--blk); stroke-linejoin: bevel; stroke-miterlimit: 10;}

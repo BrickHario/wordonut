@@ -33,13 +33,13 @@
             ),
             { prompt: session[:last_searched_lang].present? ? nil : "Choose language" } %>
     </div>
+    <% if flash[:alert] %>
+          <p style="color: red; text-align: center;"><%= flash[:alert] %></p>
+        <% end %>
     <div>
       <%= form.submit "Translate", class: "submit"%>
     </div>
   <% end %>
-  <% if flash[:alert] %>
-          <p style="color: red; text-align: center;"><%= flash[:alert] %></p>
-        <% end %>
 
     <div id="info" class="search-info">
     <% if @word_data.present? %>
@@ -153,7 +153,7 @@
 
   <div id="save" class="search-info">
   <% if current_user && @word_data.present? %>
-    <div>
+    <div class="save-sec">
       <% if current_user.liked_words.exists?(word: @word_data[:title], source_lang: params[:source_lang]) %>
         <p>Already saved this word</p>
       <% else %>
