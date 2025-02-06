@@ -3,7 +3,7 @@ namespace :assets do
     task copy_wordlist: :environment do
       # Suche nach der kompilierten Datei (mit Fingerprint) im Ordner public/assets/src/layout
       compiled_file = Dir.glob(Rails.root.join("public", "assets", "src", "layout", "wordlist-*.css")).first
-      
+
       if compiled_file && File.exist?(compiled_file)
         destination_dir = Rails.root.join("public", "css", "layout")
         FileUtils.mkdir_p(destination_dir)
@@ -15,4 +15,3 @@ namespace :assets do
       end
     end
   end
-  

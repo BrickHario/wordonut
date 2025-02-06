@@ -19,11 +19,13 @@
   <section id="map">
   <%= form_with url: translations_path, method: :post, local: true, data: { turbo: false } do |form| %>
     <div class="input-group">
-      <%= form.text_field :text,
-            placeholder: "Enter your word...",
-            required: true,
-            id: "search",
-            value: session[:last_searched_word].presence || ""%>
+    <%= form.text_field :text,
+    placeholder: "Enter your word...",
+    required: true,
+    id: "search",
+    value: session[:last_searched_word].presence || "",
+    maxlength: 20 %>
+
       <%= form.select :source_lang,
             options_for_select(
               TranslationsController::LANGUAGE_NAMES.map { |key, value| [value, key] },
@@ -35,11 +37,9 @@
       <%= form.submit "Translate", class: "submit"%>
     </div>
   <% end %>
-  
-  <% flash.each do |key, message| %>
-    <%= message %>
-  <% end %>
-  
+  <% if flash[:alert] %>
+          <p style="color: red; text-align: center;"><%= flash[:alert] %></p>
+        <% end %>
 
     <div id="info" class="search-info">
     <% if @word_data.present? %>

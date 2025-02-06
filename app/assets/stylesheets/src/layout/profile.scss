@@ -24,6 +24,7 @@
   .save-btn {
     border: none;
     background-color: var(--yellow);
+    cursor: pointer;
   
     &:hover {
       background-color: var(--blue);
@@ -53,6 +54,7 @@
     color: var(--red);
     border: solid 3px var(--red);
     background-color: var(--light-blue);
+    cursor: pointer;
   
     &:hover {
       background-color: var(--red);
@@ -100,7 +102,7 @@
   
     .pro-form {
       form {
-        #email, #old-password, #new-password {
+        #email, #password-confirmation, #new-password {
           width: 50%;
           padding: 10px;
           height: 20px;
@@ -130,7 +132,7 @@
             font-size: 1rem;
           }
   
-          #email, #old-password, #new-password {
+          #email, #password-confirmation, #new-password {
             width: 95%;
             padding: 10px;
             height: 15px;

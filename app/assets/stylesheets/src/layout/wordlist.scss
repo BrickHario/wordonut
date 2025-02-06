@@ -14,6 +14,7 @@
         display: flex;
         justify-content: space-between;
         padding-bottom: 1rem;
+        margin-top: 50px;
     }
 
     .table-div {
@@ -26,6 +27,7 @@
         border-collapse: collapse;
         table-layout: auto;
         border-spacing: 0;
+        table-layout: fixed;
 
         th, td {
             text-align: center;
@@ -67,6 +69,7 @@
         height: 30px;
         svg{
             height: 30px;
+            cursor: pointer;
         }
     }
 
@@ -77,6 +80,7 @@
         width: 100px;
         svg{
             height: 30px;
+            cursor: pointer;
         }
     }
 
@@ -84,6 +88,7 @@
         background-color: transparent;
         border:none;
         width: 100px;
+        
         
         svg{
             height: 25px;
@@ -101,6 +106,7 @@
         .word-table {
             background-color: var(--light-blue);
             width: 100%;
+            table-layout: fixed;
 
             th, td {
                 padding: 20px;
@@ -127,6 +133,7 @@
 
         .word-table {
             width: 100%;
+            table-layout: fixed;
 
             thead th {
                 font-size: 0.9rem;

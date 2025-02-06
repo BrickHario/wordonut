@@ -1,23 +1,22 @@
+
 <%= render "shared/navbar" %>
 
 <main>
   <section id="profile">
     <h1>My Profile</h1>
     <div class="pro-form">
-      <%= form_with url: "/update-email", method: :post, local: true do %>
+
+      <%= form_for @user, url: update_email_profile_path, method: :patch, html: { class: "email-form" } do |f| %>
         <h2>Change Email:</h2>
-        <%= label_tag :email, "", for: "email" %>
-<%= email_field_tag :email, nil, placeholder: @user.email, required: true, id: "email" %>
-        <%= submit_tag "Save", class: "save-btn" %>
+          <%= f.email_field :email, autofocus: true, placeholder: @user.email, required: true, id: "email", class: "form-control" %>
+          <%= f.submit "Save", class: "save-btn btn" %>
       <% end %>
 
-      <%= form_with url: "/update-password", method: :post, local: true do %>
+      <%= form_for @user, url: update_password_profile_path, method: :patch, html: { class: "password-form" } do |f| %>
         <h2>Change Password:</h2>
-        <%= label_tag :old_password, "", for: "old-password" %>
-        <%= password_field_tag :old_password, nil, placeholder: "Enter old password", required: true, id: "old-password" %>
-        <%= label_tag :new_password, "", for: "new-password" %>
-        <%= password_field_tag :new_password, nil, placeholder: "Enter new password", required: true, id: "new-password" %>
-        <%= submit_tag "Save", class: "save-btn" %>
+          <%= f.password_field :password, autocomplete: "new-password", placeholder: "Enter new password", required: true, id: "new-password", class: "form-control" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm new password", required: true, id: "password-confirmation", class: "form-control" %>
+          <%= f.submit "Save", class: "save-btn btn" %>
       <% end %>
 
       <%= button_to "Delete account", delete_account_path, method: :delete, class: "delete-btn btn btn-danger" %>
@@ -26,4 +25,7 @@
 </main>
 
 <%= render "shared/footer" %>
+
+
+
 

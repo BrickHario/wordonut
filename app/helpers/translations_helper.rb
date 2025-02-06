@@ -20,4 +20,3 @@ module TranslationsHelper
     end
   end
 end
-

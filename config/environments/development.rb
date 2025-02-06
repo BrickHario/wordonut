@@ -83,5 +83,4 @@ Rails.application.configure do
     config.assets.compile = true # Erzwingt On-the-fly-Kompilierung der SCSS-Dateien
     config.assets.check_precompiled_asset = false # Verhindert Fehler, wenn Datei nicht vorab kompiliert wurde
   end
-  
 end

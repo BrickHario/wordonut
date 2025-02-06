@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title><%= content_for(:title) || "WorDonut" %></title>
+  <title>
+  <%= content_for(:title) || "WorDonut - #{@word_data[:title]} (#{@source_language_name})" %>
+</title>
+
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
@@ -10,9 +13,10 @@
   <%= yield :head %>
 
   <link rel="manifest" href="/manifest.json">
-  <link rel="icon" href="/icon.png" type="image/png">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="icon" href="/images/icon.png" type="image/png">
+<link rel="icon" href="/images/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/images/icon.png">
+<link rel="icon" href="<%= asset_path 'icon.png' %>" type="image/png">
 
   
   <%= stylesheet_link_tag "application", media: "all" %>
@@ -23,24 +27,16 @@
   <body>
     <%= yield %>
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      document.querySelectorAll(".share-btn").forEach(button => {
-        button.addEventListener("click", function() {
-          const link = this.getAttribute("data-link");
-    
-          navigator.clipboard.writeText(link).then(() => {
-            this.innerText = "Kopiert!";
-            this.style.backgroundColor = "#28a745";
-            setTimeout(() => {
-              this.innerText = "Teilen";
-              this.style.backgroundColor = "";
-            }, 2000);
-          }).catch(err => {
-            alert("Failed to copy.");
-          });
-        });
-      });
+    document.addEventListener("click", function(e) {
+  const btn = e.target.closest('.share-btn');
+  if (btn) {
+    e.preventDefault();
+    const link = btn.getAttribute("data-link");
+    navigator.clipboard.writeText(link).catch(err => {
+      alert("Failed to copy.");
     });
+  }
+});
     </script>
   </body>
 </html>
