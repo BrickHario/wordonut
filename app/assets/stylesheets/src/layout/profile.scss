@@ -5,11 +5,6 @@
     align-items: center;
     height: 100vh;
   
-    h1 {
-      // Shared with .pro-form form h2 below
-      align-self: flex-start;
-    }
-  
     .pro-form {
       background-color: var(--light-blue);
   
@@ -36,12 +31,12 @@
     }
   
     @media (min-width: 768px) {
-      width: 10%;
+      width: 15%;
       height: 40px;
       font-size: 1.1rem;
       border-radius: 5px;
       align-self: flex-end;
-      top: -25%;
+      top: -58px;
       position: relative;
     }
   
@@ -78,7 +73,7 @@
       height: 50px;
       font-weight: 600;
       font-size: 1rem;
-      margin: 1rem;
+      
     }
   }
   
@@ -91,19 +86,25 @@
         background-color: var(--light-blue);
         display: flex;
         flex-direction: column;
+        margin: 1rem;
+       
       }
   
       h1 {
-        padding: 2rem 10rem;
+        width: 75%;
+        font-size: 2rem;
+        margin: 1rem 0;
+        margin-top: 4rem;
       }
     }
   
     .pro-form {
       form {
-        input {
+        #email, #old-password, #new-password {
           width: 50%;
           padding: 10px;
           height: 20px;
+          border-radius: 20px;
         }
       }
     }
@@ -129,7 +130,7 @@
             font-size: 1rem;
           }
   
-          input {
+          #email, #old-password, #new-password {
             width: 95%;
             padding: 10px;
             height: 15px;

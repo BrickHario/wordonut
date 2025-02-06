@@ -50,12 +50,6 @@
                 background-color: var(--dark-blue);
             }
         }
-
-        tbody tr td a {
-            svg {
-                height: 23px; // Standardgröße für SVGs in Mobilansicht
-            }
-        }
     }
 
     .sort {
@@ -70,17 +64,32 @@
 
     .translation-link {
         fill: var(--yellow);
+        height: 30px;
+        svg{
+            height: 30px;
+        }
     }
 
     .icon-delete {
         fill: var(--red);
+        background-color: transparent;
+        border:none;
+        width: 100px;
+        svg{
+            height: 30px;
+        }
     }
 
-    @media (min-width: 768px) {
-        img {
-            width: 20px;
+    .share-btn{
+        background-color: transparent;
+        border:none;
+        width: 100px;
+        
+        svg{
+            height: 25px;
         }
-
+    }
+    @media (min-width: 768px) {
         hgroup {
             width: 75%;
         }
@@ -104,15 +113,9 @@
             }
         }
 
-        .sort-icon img {
-            width: 15px;
-        }
     }
 
     @media (max-width: 768px) {
-        img {
-            width: 18px;
-        }
 
         hgroup {
             width: 95%;

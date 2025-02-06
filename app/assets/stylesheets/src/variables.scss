@@ -26,17 +26,17 @@
 }
 
 @font-face {
-    font-family: 'Inter';
+    font-family: 'Noto Sans';
     font-weight: 100 900;
     font-display: swap;
-    src: url(https://fonts.gstatic.com/s/inter/v13/UcCo3FwrK3iLTcviYwY.woff2) format('woff2');
+    src: url(https://fonts.gstatic.com/s/notosans/v27/o-0IIpQlx3QUlC5A4PNjhg.woff2) format('woff2');
 }
 
 
 *{
     margin: 0;
     padding: 0;
-    font-family: 'Inter';
+    font-family: 'Noto Sans', sans-serif;
 }
 
 section{
