@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :require_login, only: [:edit, :update_email, :update_password, :destroy]
-  before_action :set_user, only: [:edit, :update_email, :update_password, :destroy]
+  before_action :require_login, only: [ :edit, :update_email, :update_password, :destroy ]
+  before_action :set_user, only: [ :edit, :update_email, :update_password, :destroy ]
 
   def signin
     @user = User.new

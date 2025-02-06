@@ -16,18 +16,18 @@ gem "turbo-rails"
 gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
-gem 'sassc-rails'
-gem 'rubocop', require: false
+gem "sassc-rails"
+gem "rubocop", require: false
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 # um HTTP Anfragen an Azure Api zu senden:
-gem 'httparty'
-gem 'unidecode'
+gem "httparty"
+gem "unidecode"
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 # Dotenv
-gem 'dotenv-rails', groups: [:development, :test]
+gem "dotenv-rails", groups: [ :development, :test ]
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
