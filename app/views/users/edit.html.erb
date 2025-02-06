@@ -20,7 +20,7 @@
         <%= submit_tag "Save", class: "save-btn" %>
       <% end %>
 
-      <%= button_to "Delete account", "/delete-account", method: :post, class: "delete-btn" %>
+      <%= button_to "Delete account", delete_account_path, method: :delete, class: "delete-btn btn btn-danger" %>
     </div>
   </section>
 </main>

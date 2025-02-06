@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root "translations#new"
   resources :translations, only: [:new, :create]
+  get "translations", to: "translations#new"
 
   get "login", to: "sessions#login", as: :login
   post "login", to: "sessions#create"

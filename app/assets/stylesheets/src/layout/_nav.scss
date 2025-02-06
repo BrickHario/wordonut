@@ -5,6 +5,8 @@ header {
     justify-content: space-between;
     padding: 0.5rem 2rem;
     align-items: center;
+    position: relative;
+    z-index: 2;
   }
   
   .navmenu {
@@ -15,6 +17,7 @@ header {
       gap: 2rem;
   
       li {
+        padding: 0 0.8rem;
         a {
           text-decoration: none;
           color: var(--white);
