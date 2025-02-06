@@ -64,25 +64,29 @@ class TranslationsController < ApplicationController
     text = params[:text].to_s.strip
     source_lang = params[:source_lang].to_s.strip
   
-    session[:last_searched_word] = text
-    session[:last_searched_lang] = source_lang if source_lang.present?
-
-    session[:normalized_source] = source_lang.downcase
-  
     if text.blank? || source_lang.blank?
       flash[:alert] = "Type a word and select a language."
+      session[:last_searched_word] = nil
+      session[:last_searched_lang] = nil
       redirect_to root_path and return
     end
-
+  
     if text.count(" ") > 3
       flash[:alert] = "Type single words only."
+      session[:last_searched_word] = nil
+      session[:last_searched_lang] = nil
       redirect_to root_path and return
     end
-
+  
     if text.length > 20
       flash[:alert] = "20 characters: Max. length"
+      session[:last_searched_word] = nil
+      session[:last_searched_lang] = nil
       redirect_to root_path and return
     end
+  
+    session[:last_searched_word] = text
+    session[:last_searched_lang] = source_lang
   
     target_langs = TARGET_LANGUAGES.reject { |lang| lang == source_lang }
   
@@ -107,7 +111,6 @@ class TranslationsController < ApplicationController
   end
   
   
-
   def translate_with_azure(text, source_lang, target_lang, retries = 3)
     text = text.include?('/') ? text.split('/').first.strip : text.strip
     url = "#{ENV['AZURE_ENDPOINT']}/translate?api-version=3.0&from=#{source_lang}&to=#{target_lang}"
