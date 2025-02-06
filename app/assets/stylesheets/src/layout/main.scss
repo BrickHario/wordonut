@@ -1,15 +1,88 @@
-    .info-menu {
-        position: absolute;
-        background-color: var(--white);
+#map {
+    background-color: var(--map-blue);
+   
+    form {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        align-items: flex-end;
+        padding: 2rem;
+        gap: 1rem;
+        z-index: 3;
+    }
+    .input-group {
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+
+        #search {
+            border: solid var(--black) 1px;
+            border-radius: 30px;
+            padding: 15px;
+            font-size: 1rem;
+        }
+        
+        select {
+            position: absolute;
+            width: auto;
+            border: none;
+            background-color: var(--blue);
+            color: var(--white);
+            border-radius: 20px;
+            cursor: pointer;
+            height: 28px;
+            margin: 10px;
+            text-align: center;
+        }
+        
+    }
+    .submit {
+        background-color: var(--dark-blue);
+        border: none;
         padding: 10px;
-        top: 25%;
+        width: 120px;
+        color: var(--white);
+        border-radius: 30px;
+        margin-right: 10px;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+    .submit:hover{
+        background-color: var(--yellow);
+        color: var(--white);
+    }    
+}
+
+.info-menu{
+    position: fixed;
+    z-index: 4;
+    ul {
+        list-style: none;
+        .toggle-info {
+            padding: 10px;
+            svg{
+                height: 30px;
+            }
+            .save {
+                width: 24px;
+            }
+        }
+    }
+}
+@media (min-width: 768px){
+    .info-menu {
+        background-color: var(--white);
+        margin: 2rem;
+        border-radius: 5px;
         ul {
             list-style: none;
             .toggle-info {
-                width: 30px;
-                height: 30px;
-                svg {
-                    height: auto;
+                padding: 10px;
+                svg{
+                    height: 30px;
+                }
+                .save {
+                    width: 24px;
                 }
             }
             .toggle-info:hover,  .toggle-info.active{
@@ -18,93 +91,60 @@
             }
         }
     }
+    #map{
+        .input-group {
+            width: 50%;
+            
+            #search {
+                min-width: 400px;
+            }
+        }
+        
+    }
+}
+
+@media (max-width: 768px){
+    .info-menu {
+        background-color: blue;
+        width: 100%;
+        top: auto;
+        bottom: 0;
+        ul {
+            display: flex;
+            justify-content: space-around;
+            .toggle-info{
+                width: 33.33%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                svg{
+                    fill: white;
+                }
+            }
+        }
+        .toggle-info:hover,  .toggle-info.active{
+            background-color: var(--dark-blue);
+        }
+    }
     #map {
-        background-color: var(--map-blue);
         .map {
+            width: 100%;
+            position: absolute;
+            
             
         }
         form {
-            display: flex;
-            flex-direction: column;
             align-items: flex-end;
-            padding: 40px 40px 0 0;
-            position: relative;
-            z-index: 1;
+            padding: 20px 0;
+            
         }
         .input-group {
-            position: relative;
-            width: 40%;
-            border-radius: 12px;
-
+            width: 95%;
+            align-self: center;
             #search {
-              width: 100%;
-              padding: 10px;
-              border: solid black 2px;
-              border-radius: 8px;
+                width: 100%;
             }
-          
-            select {
-              position: absolute;
-              right: 0;
-              top: 50%;
-              height: 75%;
-              width: auto;
-              border: none;
-              background-color: var(--blue);
-              color: var(--white);
-              text-align: left;
-              border-radius: 8px;
-              cursor: pointer;
-              transform: translateY(-50%);
-            }
-            .submit {
-
-            }
-          }
-          
-    }
-    
-    @media (max-width: 768px){
-        .info-menu {
-           background-color: blue;
-            width: 100%;
-            z-index: 3;
-            top: auto;
-            bottom: 0;
-            ul {
-                display: flex;
-                justify-content: space-around;
-                .toggle-info{
-                    svg{
-                        fill: white;
-                    }
-                }
-            }
+            
         }
-        #map {
-            .map {
-                
-            }
-            form {
-                align-items: center;
-                padding: 20px 0;
-                
-            }
-            .input-group {
-                position: relative;
-                width: 80%;
-                border-radius: 12px;
-    
-                #search {
-                  width: 100%;
-                  padding: 10px;
-                  border: solid black 2px;
-                  border-radius: 8px;
-                }
-              
-            }}
     }
-
-@media (min-width: 768px){
-
 }
