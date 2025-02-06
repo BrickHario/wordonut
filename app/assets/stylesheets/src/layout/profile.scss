@@ -24,6 +24,7 @@
   .save-btn {
     border: none;
     background-color: var(--yellow);
+    cursor: pointer;
   
     &:hover {
       background-color: var(--blue);
@@ -53,6 +54,7 @@
     color: var(--red);
     border: solid 3px var(--red);
     background-color: var(--light-blue);
+    cursor: pointer;
   
     &:hover {
       background-color: var(--red);

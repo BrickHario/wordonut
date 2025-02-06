@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title><%= content_for(:title) || "WorDonut" %></title>
+  <title>
+  <%= content_for(:title) || "WorDonut - #{@word_data[:title]} (#{@source_language_name})" %>
+</title>
+
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>

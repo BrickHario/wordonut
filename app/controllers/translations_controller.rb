@@ -18,12 +18,12 @@ class TranslationsController < ApplicationController
     "uk" => "Ukrainian", "cy" => "Welsh", "ar" => "Arabic"
   }.freeze
   SIMILAR_LETTERS = {
-    "v" => [ "w", "f" ], "w" => [ "v" ], "d" => [ "t" ], "t" => [ "d" ], "b" => [ "p" ],
+    "v" => [ "w", "f" ], "w" => [ "v" ], "d" => [ "t", "ð" ], "t" => [ "d" ], "b" => [ "p" ],
     "p" => [ "b", "f" ], "f" => [ "v", "p" ], "s" => [ "z" ], "z" => [ "s" ],
     "c" => [ "k", "ċ" ], "k" => [ "c" ], "ä" => [ "a", "e" ], "ö" => [ "o" ],
     "ü" => [ "u" ], "u" => [ "ü" ], "y" => [ "i" ], "i" => [ "y", "j", "í" ],
     "j" => [ "i" ], "í" => [ "i" ], "ħ" => [ "h" ], "h" => [ "ħ" ], "ë" => [ "ă" ],
-    "ă" => [ "ë" ], "ċ" => [ "c" ]
+    "ă" => [ "ë" ], "ċ" => [ "c" ], "ð" => [ "d" ]
   }.freeze
 
   def new
@@ -308,7 +308,7 @@ class TranslationsController < ApplicationController
       end
     end
     penalty_shortwords = array1 == array2 ? 1.0 : { 2 => 0.8, 3 => 0.9, 4 => 0.95 }.fetch(array2.length, 1.0)
-    same_cap = array1 == array2 ? 1 : (array1[0] == array2[0] || array1[0] == array2[1]) ? 1.02 : 0.5
+    same_cap = array1 == array2 ? 1 : (array1[0] == array2[0] || array1[0] == array2[1]) ? 1.02 : 0.8
 
     ((1 - (difference.to_f / max_length)) * penalty_shortwords) * same_cap
   end
