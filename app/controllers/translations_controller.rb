@@ -71,7 +71,7 @@ class TranslationsController < ApplicationController
       redirect_to root_path and return
     end
 
-    if text.count(" ") > 3
+    if text.count(" ") > 2
       flash[:alert] = "Type single words only."
       session[:last_searched_word] = nil
       session[:last_searched_lang] = nil

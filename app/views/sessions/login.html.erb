@@ -9,21 +9,22 @@
     <div class="form">
       <h1>Login</h1>
 
-      <% if flash[:alert] %>
-        <p style="color: red;"><%= flash[:alert] %></p>
-      <% end %>
-
-      <%= form_with url: login_path, method: :post, local: true do |form| %>
+      <%= form_with url: login_path, method: :post, local: true, data: { turbo: false } do |form| %>
         <label for="email">Email:</label>
         <%= form.email_field :email, id: "email", placeholder: "Enter your email", required: true %>
-
+      
         <label for="password">Password:</label>
         <%= form.password_field :password, id: "password", placeholder: "Enter your password", required: true %>
-
+      
+        <% if flash[:alert] %>
+          <p style="color: red; text-align: center;"><%= flash[:alert] %></p>
+        <% end %>
+      
         <button type="submit">Login</button>
       <% end %>
-
+      
       <p>Don’t have an account? <%= link_to "Sign up", signup_path %></p>
+      
     </div>
   </section>
 </main>

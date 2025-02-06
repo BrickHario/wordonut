@@ -35,11 +35,9 @@
       <%= form.submit "Translate", class: "submit"%>
     </div>
   <% end %>
-  
-  <% flash.each do |key, message| %>
-    <%= message %>
-  <% end %>
-  
+  <% if flash[:alert] %>
+          <p style="color: red; text-align: center;"><%= flash[:alert] %></p>
+        <% end %>
 
     <div id="info" class="search-info">
     <% if @word_data.present? %>
