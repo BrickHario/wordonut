@@ -1,7 +1,7 @@
 #profile {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     height: 100vh;
   
@@ -25,9 +25,10 @@
     border: none;
     background-color: var(--yellow);
     cursor: pointer;
+    transition: var(--anim);
   
     &:hover {
-      background-color: var(--blue);
+      background-color: var(--dark-blue);
       color: var(--yellow);
     }
   
@@ -55,6 +56,7 @@
     border: solid 3px var(--red);
     background-color: var(--light-blue);
     cursor: pointer;
+    transition: var(--anim);
   
     &:hover {
       background-color: var(--red);
@@ -89,7 +91,7 @@
         display: flex;
         flex-direction: column;
         margin: 1rem;
-       
+       border-radius: 8px;
       }
   
       h1 {

@@ -40,6 +40,12 @@
                 font-weight: 600;
                 border-radius: 5px;
                 cursor: pointer;
+                transition: var(--anim);
+                margin-top: 12px;
+            }
+            button:hover {
+                background-color: var(--yellow);
+                color: var(--dark-blue);
             }
         }
     }
@@ -60,7 +66,7 @@
         }
 
         form {
-            padding: 4rem;      
+            padding: 4rem 4rem 0 4rem;      
         }
 
         .form h1 {

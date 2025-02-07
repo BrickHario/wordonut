@@ -109,7 +109,7 @@
               <% group_translations.each do |lang, translation| %>
                 <% source_lang = (params[:source_lang].presence || session[:last_searched_lang]).to_s.strip.downcase %>
                 <% color = similarity_color(translation[:similarity] || 0, lang, source_lang) %>
-                <li style="color: <%= color %>;">
+                <li>
                   <%= button_to translations_path,
                         method: :post,
                         params: { text: translation[:transliterated], source_lang: lang },
@@ -121,9 +121,10 @@
                   <% end %>
 
                   <% if TranslationsController::TRANSLITERATION_LANGUAGES.include?(lang) %>
-                    <span> (<%= translation[:original] %>) </span>
+                    <span>(<%= translation[:original] %>) </span>
                   <% end %>
-                  &nbsp;<%= translation[:similarity] %>%
+                  <p style="color: <%= color %>;">
+                  &nbsp;<%= translation[:similarity] %>%</p>
                 </li>
               <% end %>
             </ol>
@@ -159,8 +160,7 @@
       <% else %>
         <p>Add word to my WordList:</p>
         <div class="added_group">
-        <p>Word was added!</p>
-        <p>Go to the <%= form_with url: save_word_path, method: :post, local: true do |form| %>
+        <p><%= form_with url: save_word_path, method: :post, local: true do |form| %>
           <%= hidden_field_tag :word, @word_data[:title] %>
           <%= hidden_field_tag :source_lang, params[:source_lang] %>
           <%= submit_tag "Save Word", class: "save-word-button" %></p>

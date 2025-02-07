@@ -37,13 +37,13 @@ class WordsController < ApplicationController
       redirect_to saved_words_path
     end
 
-      def shared
-        @liked_word = LikedWord.find_by(share_token: params[:token])
+    def shared
+      @liked_word = LikedWord.find_by(share_token: params[:token])
 
-        if @liked_word
-          redirect_to root_path(text: @liked_word.word, source_lang: @liked_word.source_lang)
-        else
-          redirect_to root_path
-        end
+      if @liked_word
+        redirect_to root_path(text: @liked_word.word, source_lang: @liked_word.source_lang)
+      else
+        redirect_to root_path
       end
+    end
 end

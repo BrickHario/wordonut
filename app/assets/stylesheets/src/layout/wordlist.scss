@@ -1,7 +1,7 @@
 #wordlist {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     height: 100vh;
     background: var(--white);
@@ -21,6 +21,7 @@
         overflow-x: auto;
         min-height: 70vh;
         background-color: var(--light-blue);
+        border-radius: 8px;
     }
 
     .word-table {
@@ -35,12 +36,19 @@
             padding: 0;
             border: none;
         }
-
+td {
+    .icon-share, .icon-delete {
+        transition: var(--anim);
+    }
+    .icon-share:hover, .icon-delete:hover {
+        transform: scale(1.1);
+    }
+}
         tr {
             border: none;
 
             &:nth-child(even) {
-                background-color: var(--light-white);
+                background-color: var(--white);
             }
         }
 
@@ -56,17 +64,21 @@
 
     .sort {
         fill: var(--black);
-        transition: fill 0.5s ease-in-out;
         height: 25px;
+        transition: var(--anim);
 
         &:hover {
-            fill: var(--gray);
+            transform: scale(1.1);
         }
     }
 
     .translation-link {
         fill: var(--yellow);
         height: 30px;
+        transition: var(--anim);
+    .translation-link:hover {
+        transform: scale(1.1)
+    }
         svg{
             height: 30px;
             cursor: pointer;
@@ -122,7 +134,6 @@
     }
 
     @media (max-width: 768px) {
-
         hgroup {
             width: 95%;
         }

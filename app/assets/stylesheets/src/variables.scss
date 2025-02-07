@@ -6,9 +6,9 @@
     --light-gray: #BEBEBE;
     --dark-blue: #001D3D;
     --blue: #043695;
-    --light-blue: #E9FAFF;
+    --light-blue: #dff0f5;
 
-    --light-white: #F9F9F9;
+    --light-white: #fcfcf4;
     --white: #FEFEF6;
 
     --red-contrast: #FF0000;
@@ -22,6 +22,8 @@
     --yellow: #E4B808;
 
     --fts:  1.2rem;
+
+    --anim: 0.2s ease;
 
 }
 
@@ -44,6 +46,6 @@ section{
 }
 
 #login, #wordlist, #profile{
-    background-color: var(--white);
-    padding-bottom: 5rem;
+    background-color: var(--light-white);
+    padding: 5rem 0;
 }
