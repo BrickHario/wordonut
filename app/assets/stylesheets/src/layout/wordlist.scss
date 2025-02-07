@@ -40,8 +40,9 @@ td {
     .icon-share, .icon-delete {
         transition: var(--anim);
     }
-    .icon-share:hover, .icon-delete:hover {
+    .share-btn:hover, .icon-delete:hover {
         transform: scale(1.1);
+        cursor: pointer;
     }
 }
         tr {
