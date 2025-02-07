@@ -19,10 +19,12 @@
         margin: 20px 0;
     }
     h1{
-        text-align: center;
+        text-align: left;
+        padding: 0 1rem;
     }
     li {
         margin-bottom: 12px;
+        padding: 0 1rem;
     }
 }
 
@@ -33,10 +35,14 @@
             margin: 1.4rem;
             font-size: 1.4rem;
         }
+        ul{
+            li {
+                list-style: none;
+            }
+        }
 
         ol{
             list-style: none;
-
             li{
                 display: flex;
                 align-items: center;
