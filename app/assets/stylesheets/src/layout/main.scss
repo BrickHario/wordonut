@@ -53,7 +53,16 @@
     .submit:hover{
         background-color: var(--yellow);
         color: var(--dark-blue);
-    }    
+    } 
+    .legend {
+        padding: 12px;
+        ul {
+            list-style: none;
+            .green{color: var(--green);}
+            .orange{color: var(--orange);}
+            .red{color: var(--red);}
+        }
+    } 
 }
 
 .info-menu{

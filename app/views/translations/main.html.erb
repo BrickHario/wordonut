@@ -181,6 +181,20 @@
   <div class="map">
     <%= render "map", colors: @colors %>
   </div>
+  <div class="legend">
+  <h3>Legend</h3>
+  <ul>
+    <li class="green">
+      Green: The word is almost identical in the highlighted language.
+    </li>
+    <li class="orange">
+      Orange: The word is moderately similar.
+    </li>
+    <li class="red">
+      Red: The word is not similar at all.
+    </li>
+  </ul>
+</div>
   </section>
 </main>
 
