@@ -19,7 +19,6 @@
 
     .table-div {
         overflow-x: auto;
-        min-height: 70vh;
         background-color: var(--light-blue);
         border-radius: 8px;
     }
@@ -48,9 +47,6 @@ td {
         tr {
             border: none;
 
-            &:nth-child(even) {
-                background-color: var(--white);
-            }
         }
 
         thead {

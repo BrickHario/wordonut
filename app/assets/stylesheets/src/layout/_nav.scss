@@ -35,6 +35,10 @@ header {
   @media (min-width: 768px) {
     .logo {
       width: 60%;
+      transition: var(--anim);
+    }
+    .logo:hover {
+      transform: scale(1.05);
     }
   
     .hamburger {

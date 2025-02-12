@@ -7,10 +7,13 @@ svg polygon:not(.region):not(.x), svg path:not(.region):not(.x), svg polyline:no
 .dotted {stroke-dasharray: 6 6;stroke-width: 2px; stroke-linejoin: bevel; stroke-linecap: round; stroke-opacity: 0.3;}
 .nofill {fill: none !important;}
 .nostroke {stroke: none !important;}
-.region.dotted.stripe {pointer-events: none;} 
+.region.dotted.stripe {pointer-events: none;}
 
 @media (max-width: 768px){
 svg {
     height: auto;
 }
+p:not(.toggle-info p):not(.search-info p) {
+    display: none;
+  }
 }

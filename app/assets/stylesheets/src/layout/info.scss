@@ -1,9 +1,9 @@
 .search-info{
     background-color: var(--white);
     overflow-y: scroll;
-    display: none;
+    display: block;
     position: absolute;
-    right: 0;
+    left: 0;
     top: 0;
     z-index: 1;
     border: var(--dark-blue) 2px solid;
@@ -20,7 +20,7 @@
     }
     h1{
         text-align: left;
-        padding: 0 1rem;
+        padding-bottom: 12px;
     }
     li {
         margin-bottom: 12px;
@@ -34,11 +34,6 @@
             text-align: center;
             margin: 1.4rem;
             font-size: 1.4rem;
-        }
-        ul{
-            li {
-                list-style: none;
-            }
         }
 
         ol{
@@ -88,11 +83,10 @@
 @media (min-width: 768px){
     .search-info{
         width: 400px;
-        padding: 13rem 3rem 0 3rem;
-        margin-left: auto;
+        padding: 10rem 3rem 0 3rem;
         right: 0;
         top: 0;
-        height: 75%;
+        height: 65%;
         .added-group {
             margin: 20px 0;
         }
@@ -115,9 +109,12 @@
         width: 100%;
         background-color: var(--white);
         height: 75vh;
-        padding-top: 10.5rem;
+        margin-top: 20vh;
         h2, p{
             margin: 1rem;
+        }
+        h1 {
+            padding: 0 1rem 12px 1rem;
         }
     }
 
@@ -126,6 +123,15 @@
             margin: 1rem;
         }
     }
-
+    #info {
+        h1 {
+            padding-top: 2rem;
+        }
+    }
+    #save {
+        .save-sec {
+            padding-top: 2rem;
+        }
+    }
     
 }

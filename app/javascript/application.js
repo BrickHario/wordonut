@@ -11,3 +11,4 @@ document.addEventListener("turbo:load", () => {
   zoom();
 });
 
+

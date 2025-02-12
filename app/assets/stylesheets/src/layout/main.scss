@@ -62,6 +62,11 @@
     ul {
         list-style: none;
         cursor: pointer;
+        li {
+            p {
+                color: var(--white);
+            }
+        }
         .toggle-info {
             padding: 10px;
             svg{
@@ -75,22 +80,26 @@
 }
 @media (min-width: 768px){
     .info-menu {
-        background-color: var(--white);
+        background-color: var(--dark-blue);
         margin: 2rem;
         border-radius: 5px;
         ul {
             list-style: none;
+            display: flex;
+            justify-content: space-around;
+            width: 300px;
             .toggle-info {
                 padding: 10px;
                 transition: var(--anim);
                 svg{
                     height: 30px;
+                    fill: var(--white);
                 }
                 .save {
                     width: 24px;
                 }
             }
-            .toggle-info:hover,  .toggle-info.active{
+            .toggle-info:hover{
                 background-color: var(--yellow);
                 border-radius: 5%;
             }
@@ -101,7 +110,7 @@
             margin-top: -100px;
         }
         .input-group {
-            width: 50%;
+            
             
             #search {
                 min-width: 400px;
@@ -120,18 +129,16 @@
         ul {
             display: flex;
             justify-content: space-around;
+            height: 60px;
             .toggle-info{
                 width: 33.33%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 transition: var(--anim);
-                svg{
-                    fill: white;
-                }
             }
         }
-        .toggle-info:hover,  .toggle-info.active{
+        .toggle-info:hover{
             background-color: var(--dark-blue);
         }
     }

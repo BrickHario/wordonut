@@ -73,52 +73,63 @@ class TranslationsController < ApplicationController
   def create
     text = params[:text].to_s.strip
     source_lang = params[:source_lang].to_s.strip
-
+  
+    # Basis-Validierung
     if text.blank? || source_lang.blank?
       flash[:alert] = "Type a word and select a language."
       session[:last_searched_word] = nil
       session[:last_searched_lang] = nil
       redirect_to root_path and return
     end
-
+  
     if text.count(" ") > 2
       flash[:alert] = "Type single words only."
       session[:last_searched_word] = nil
       session[:last_searched_lang] = nil
       redirect_to root_path and return
     end
-
+  
     if text.length > 20
       flash[:alert] = "20 characters: Max. length"
       session[:last_searched_word] = nil
       session[:last_searched_lang] = nil
       redirect_to root_path and return
     end
-
+  
     session[:last_searched_word] = text
     session[:last_searched_lang] = source_lang
-
+  
+    # Übersetzungen und Word-Daten ermitteln
     target_langs = TARGET_LANGUAGES.reject { |lang| lang == source_lang }
-
     @source_language_name = LANGUAGE_NAMES[source_lang]
     @translations = translate_text(text, source_lang, target_langs)
     @word_data = fetch_word_data(text, @source_language_name)
+    
+    english_word = if source_lang == "en"
+                     text
+                   else
+                     (@translations["en"] && @translations["en"][:original]) || text
+                   end
+    @translated_synonyms = fetch_synonyms(english_word)
+  
+    # Falls weder Synonyme noch (Etymologie und Bedeutung) gefunden wurden
+    if @translated_synonyms.blank? && (@word_data.nil? || (@word_data[:etymology].blank? && @word_data[:meaning].blank?))
+      flash[:alert] = "Word not found."
+      session[:last_searched_word] = nil
+      session[:last_searched_lang] = nil
+      redirect_to root_path and return
+    end
+  
     @word_array = split_word_to_array(text)
     @colors = {}
-
+  
     TARGET_LANGUAGES.each do |lang|
       @colors[lang] = similarity_color(@translations.dig(lang, :similarity), lang, source_lang)
     end
-
-    english_word = if source_lang == "en"
-                     text
-    else
-                     (@translations["en"] && @translations["en"][:original]) || text
-    end
-    @translated_synonyms = fetch_synonyms(english_word)
-
+  
     render :main
   end
+  
 
 
   def translate_with_azure(text, source_lang, target_lang, retries = 3)

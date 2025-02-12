@@ -19,15 +19,15 @@ class WordsController < ApplicationController
       source_lang = params[:source_lang]
 
       if word.blank? || source_lang.blank?
-        redirect_to root_path
+        redirect_to saved_words_path
         return
       end
 
       unless current_user.liked_words.exists?(word: word, source_lang: source_lang)
         current_user.liked_words.create(word: word, source_lang: source_lang)
-        redirect_to root_path
+        redirect_to saved_words_path
       else
-        redirect_to root_path
+        redirect_to saved_words_path
       end
     end
 

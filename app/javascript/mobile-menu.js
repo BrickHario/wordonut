@@ -2,7 +2,6 @@ const mobileMenu = () => {
     const nav = document.querySelector('.navmenu');
     const list = nav.querySelector('ul');
     const button = document.querySelector('.hamburger');
-    console.log("i found the button", button);
   
     if (!nav || !list || !button) {
         console.error("Elements for mobile menu not found. Check HTML structure or IDs.");
