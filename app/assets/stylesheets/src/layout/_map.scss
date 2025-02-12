@@ -13,7 +13,7 @@ svg polygon:not(.region):not(.x), svg path:not(.region):not(.x), svg polyline:no
 svg {
     height: auto;
 }
-p:not(.toggle-info p):not(.search-info p) {
+.map p {
     display: none;
   }
 }

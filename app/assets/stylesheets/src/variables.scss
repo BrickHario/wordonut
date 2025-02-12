@@ -52,5 +52,36 @@ section{
     background-color: var(--light-white);
     padding: 5rem 0;
 }
+
+/* Overlay, das den gesamten Bildschirm abdeckt */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8); /* Halbtransparenter Hintergrund */
+    z-index: 10000;
+    display: flex;              /* Damit der Spinner zentriert wird */
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Spinner-Styling */
+  .spinner {
+    border: 8px solid #f3f3f3;   /* Heller Rand */
+    border-top: 8px solid #3498db; /* Animierter, farbiger Teil */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+  }
+  
+  /* Animation des Spinners */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
   
   

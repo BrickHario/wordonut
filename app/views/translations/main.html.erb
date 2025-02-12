@@ -1,6 +1,9 @@
 <%= render "shared/navbar" %>
 
 <main>
+<div id="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+  </div>
 <div class="info-menu">
                 <ul>
                     <li class="toggle-info" data-target="info" >
@@ -15,14 +18,14 @@
                 </ul>
             </div>
   <section id="map">
-  <%= form_with url: translations_path, method: :post, local: true, data: { turbo: false } do |form| %>
+  <%= form_with url: translations_path, method: :post, local: true, data: { turbo: false }, html: { id: "translate-form" } do |form| %>
     <div class="input-group">
-    <%= form.text_field :text,
-    placeholder: "Enter your word...",
-    required: true,
-    id: "search",
-    value: session[:last_searched_word].presence || "",
-    maxlength: 20 %>
+      <%= form.text_field :text,
+            placeholder: "Enter your word...",
+            required: true,
+            id: "search",
+            value: session[:last_searched_word].presence || "",
+            maxlength: 20 %>
 
       <%= form.select :source_lang,
             options_for_select(
@@ -31,13 +34,16 @@
             ),
             { prompt: session[:last_searched_lang].present? ? nil : "Choose language" } %>
     </div>
+
     <% if flash[:alert] %>
-          <p style="color: red; text-align: center;"><%= flash[:alert] %></p>
-        <% end %>
+      <p style="color: red; text-align: center;"><%= flash[:alert] %></p>
+    <% end %>
+
     <div>
-      <%= form.submit "Translate", class: "submit"%>
+      <%= form.submit "Translate", class: "submit" %>
     </div>
   <% end %>
+
 
     <div id="translation" class="search-info">
     <% if @translations.present? && @translations.any? %>
@@ -64,19 +70,16 @@
                 <% source_lang = (params[:source_lang].presence || session[:last_searched_lang]).to_s.strip.downcase %>
                 <% color = similarity_color(translation[:similarity] || 0, lang, source_lang) %>
                 <li>
-                  <%= button_to translations_path,
-                        method: :post,
-                        params: { text: translation[:transliterated], source_lang: lang },
-                        data: { turbo: false },
-                        class: "translation-link",
-                        style: "color: inherit; background: none; border: none; padding: 0; font: inherit; cursor: pointer; text-decoration: none;" do %>
-                    <strong><%= TranslationsController::LANGUAGE_NAMES[lang] %>: </strong>
-                    <%= translation[:transliterated] %>
-                  <% end %>
-
-                  <% if TranslationsController::TRANSLITERATION_LANGUAGES.include?(lang) %>
-                    <span>(<%= translation[:original] %>) </span>
-                  <% end %>
+                <%= button_to translations_path,
+                method: :post,
+                params: { text: translation[:original], source_lang: lang },
+                data: { turbo: false },
+                class: "translation-link",
+                style: "color: inherit; background: none; border: none; padding: 0; font: inherit; cursor: pointer; text-decoration: none;" do %>
+            <strong><%= TranslationsController::LANGUAGE_NAMES[lang] %>: </strong>
+            <%= translation[:original] %>
+          <% end %>
+          
                   <p style="color: <%= color %>;">
                   &nbsp;<%= translation[:similarity] %>%</p>
                 </li>
@@ -195,10 +198,9 @@
     </li>
   </ul>
 </div>
+<%= render "shared/footer" %>
   </section>
 </main>
-
-<%= render "shared/footer" %>
 
 
 

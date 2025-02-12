@@ -3,19 +3,16 @@ footer{
     color: var(--white);
     display: flex;
     z-index: 9;
-}
-
-@media (min-width: 768px){
-    footer{
-        padding: 1rem;
-        flex-direction: row;
+    padding: 1rem;
+    flex-direction: row;
         justify-content: space-between;
-    }
+        align-items: center;
 }
-@media (max-width: 768px){
-    footer{
-        display: none;
-    }
 
-    
+@media (max-width: 768px){
+    #map {
+        footer{
+            display: none;
+        }
+    }
 }

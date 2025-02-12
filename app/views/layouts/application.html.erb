@@ -23,11 +23,10 @@
   <body>
     <%= yield %>
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("turbo:load", function() {
   document.querySelectorAll(".share-btn").forEach(button => {
     button.addEventListener("click", function() {
       const link = this.getAttribute("data-link");
-
       navigator.clipboard.writeText(link).then(() => {
         this.setAttribute("title", "Copied!");
         setTimeout(() => {

@@ -171,12 +171,21 @@ class TranslationsController < ApplicationController
 
           if TRANSLITERATION_LANGUAGES.include?(lang)
             transliterated = transliterate(translation, lang)
-            similarity = calculate_similarity(text, transliterated[:transliterated])
-            { lang => { original: transliterated[:original], transliterated: transliterated[:transliterated], splited: split_word_to_array(translation), similarity: (similarity * 100).to_i } }
+            # Transkribiere auch die Eingabe, damit beide im lateinischen Alphabet vorliegen:
+            input_transliterated = Unidecoder.decode(text)
+            similarity = calculate_similarity(input_transliterated, transliterated[:transliterated])
+            { lang => { original: transliterated[:original],
+                        transliterated: transliterated[:transliterated],
+                        splited: split_word_to_array(translation),
+                        similarity: (similarity * 100).to_i } }
           else
             similarity = calculate_similarity(text, translation)
-            { lang => { original: translation, transliterated: translation, splited: split_word_to_array(translation), similarity: (similarity * 100).to_i } }
+            { lang => { original: translation,
+                        transliterated: translation,
+                        splited: split_word_to_array(translation),
+                        similarity: (similarity * 100).to_i } }
           end
+          
         rescue => e
           Rails.logger.error("Failed translation for #{lang}: #{e.message}")
           { lang => { error: e.message } }

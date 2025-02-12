@@ -116,11 +116,14 @@
         h1 {
             padding: 0 1rem 12px 1rem;
         }
+        ul {
+            list-style: none;
+        }
     }
 
     #translation{
         div{
-            margin: 1rem;
+            margin: 2rem 0;
         }
     }
     #info {
@@ -131,6 +134,9 @@
     #save {
         .save-sec {
             padding-top: 2rem;
+        }
+        .text {
+            padding: 2rem 0;
         }
     }
     
