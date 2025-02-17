@@ -21,8 +21,8 @@ class TranslationsController < ApplicationController
     "v" => [ "w", "f" ], "w" => [ "v" ], "d" => [ "t", "ð" ], "t" => [ "d" ], "b" => [ "p" ],
     "p" => [ "b", "f" ], "f" => [ "v", "p" ], "s" => [ "z" ], "z" => [ "s" ],
     "c" => [ "k", "ċ" ], "k" => [ "c" ], "ä" => [ "a", "e" ], "ö" => [ "o" ],
-    "ü" => [ "u" ], "u" => [ "ü" ], "y" => [ "i" ], "i" => [ "y", "j", "í" ],
-    "j" => [ "i" ], "í" => [ "i" ], "ħ" => [ "h" ], "h" => [ "ħ" ], "ë" => [ "ă", "å" ],
+    "ü" => [ "u" ], "u" => [ "ü" ], "y" => [ "i", "j", "í" ], "i" => [ "y", "j", "í" ],
+    "j" => [ "i", "y", "í" ], "í" => [ "i" ], "ħ" => [ "h" ], "h" => [ "ħ" ], "ë" => [ "ă", "å" ],
     "ă" => [ "ë", "å" ], "ċ" => [ "c" ], "ð" => [ "d" ], "å" => [ "ë", "ă" ], "m"  => [ "n", "ñ" ], "n"  => [ "m", "ñ" ], "ñ"  => [ "m", "n" ], "l"  => [ "r", "ł" ],
   "r"  => [ "l", "ʀ" ], "q"  => [ "k", "c" ], "æ"  => [ "a", "e" ], "œ"  => [ "o", "e" ],
   "ß"  => [ "ss" ], "á"  => [ "a" ], "à"  => [ "a" ], "â"  => [ "a" ], "ã"  => [ "a" ],
@@ -161,52 +161,76 @@ class TranslationsController < ApplicationController
   end
 
   def translate_text(text, source_lang, target_langs)
+    # Nur umwandeln, wenn die Source-Sprache nicht lateinisch ist:
+    input_transliterated = if TRANSLITERATION_LANGUAGES.include?(source_lang)
+                             Unidecoder.decode(text)
+                           else
+                             text
+                           end
+  
     promises = target_langs.map do |lang|
       Concurrent::Promise.execute do
         begin
           translation = translate_with_azure(text, source_lang, lang)
-          if translation.nil?
-            raise "Failed translation: #{lang}"
-          end
-
+          raise "Failed translation: #{lang}" if translation.nil?
+  
           if TRANSLITERATION_LANGUAGES.include?(lang)
+            # Für target Sprachen, die nicht lateinisch sind, benutze deine spezielle Transliteration:
             transliterated = transliterate(translation, lang)
-            # Transkribiere auch die Eingabe, damit beide im lateinischen Alphabet vorliegen:
-            input_transliterated = Unidecoder.decode(text)
-            similarity = calculate_similarity(input_transliterated, transliterated[:transliterated])
+            translation_transliterated = transliterated[:transliterated]
+            similarity = calculate_similarity(input_transliterated, translation_transliterated)
             { lang => { original: transliterated[:original],
-                        transliterated: transliterated[:transliterated],
+                        transliterated: translation_transliterated,
                         splited: split_word_to_array(translation),
                         similarity: (similarity * 100).to_i } }
-          else
-            similarity = calculate_similarity(text, translation)
-            { lang => { original: translation,
-                        transliterated: translation,
-                        splited: split_word_to_array(translation),
-                        similarity: (similarity * 100).to_i } }
-          end
-          
+                      else
+                        # Für target-Sprachen, die lateinisch sind,
+                        # sollen beide Seiten in lateinischer Form vorliegen.
+                        translation_transliterated = if TRANSLITERATION_LANGUAGES.include?(lang)
+                                                         Unidecoder.decode(translation)
+                                                       else
+                                                         translation
+                                                       end
+                        similarity = calculate_similarity(input_transliterated, translation_transliterated)
+                        { lang => { original: translation,
+                                    transliterated: translation_transliterated,
+                                    splited: split_word_to_array(translation),
+                                    similarity: (similarity * 100).to_i } }
+                      end
+                      
+  
         rescue => e
-          Rails.logger.error("Failed translation for #{lang}: #{e.message}")
+          Rails.logger.error("Failed translation for #{lang}: #{e.message}.")
           { lang => { error: e.message } }
         end
       end
     end
-
+  
     results = promises.map(&:value)
-
+  
     failed_languages = results.select { |r| r.values.first[:error] }.map(&:keys).flatten
     if failed_languages.any?
       failed_languages.each do |lang|
         retry_translation = translate_with_azure(text, source_lang, lang)
         if retry_translation
-          results << { lang => { original: retry_translation, transliterated: retry_translation, splited: split_word_to_array(retry_translation), similarity: (calculate_similarity(text, retry_translation) * 100).to_i } }
+          translation_transliterated = if TRANSLITERATION_LANGUAGES.include?(source_lang)
+                                          Unidecoder.decode(retry_translation)
+                                        else
+                                          retry_translation
+                                        end
+          similarity = calculate_similarity(input_transliterated, translation_transliterated)
+          results << { lang => { original: retry_translation,
+                                  transliterated: translation_transliterated,
+                                  splited: split_word_to_array(retry_translation),
+                                  similarity: (similarity * 100).to_i } }
         end
       end
     end
-
+  
     results.reduce({}, :merge)
   end
+  
+  
 
   def fetch_synonyms(word)
     require "cgi"
@@ -273,26 +297,30 @@ class TranslationsController < ApplicationController
     language_section = extract_language_section(extract, source_language_name)
     verb_section = extract_verb_section(language_section)
     etymology = extract_etymology(language_section)
+    puts language_section
 
     {
       title: page["title"],
       etymology: etymology,
       language_section: language_section,
-      verb_section: verb_section
+      verb_section: verb_section,
+      full: extract
     }
   end
 
 
   def extract_language_section(text, source_language_name)
     return "" unless text
-    match = text.match(/^==\s*#{Regexp.escape(source_language_name)}\s*==$\n+(.*)/m)
+    match = text.match(/^==\s*#{Regexp.escape(source_language_name)}\s*==$\n+(.*?)(?=\n== |\z)/m)
     match ? match[1].strip : ""
   end
+  
 
   def extract_verb_section(language_section)
     return "" unless language_section
     match = language_section.match(/=== Adjective ===\s*([\s\S]*?)(?=\n==|\z)/) ||
             language_section.match(/=== Noun ===\s*([\s\S]*?)(?=\n==|\z)/) ||
+            language_section.match(/=== Adverb ===\s*([\s\S]*?)(?=\n==|\z)/) ||
             language_section.match(/=== Verb ===\s*([\s\S]*?)(?=\n==|\z)/)
 
     if match
