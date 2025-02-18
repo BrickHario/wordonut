@@ -16,10 +16,6 @@
         <label for="password">Password:</label>
         <%= form.password_field :password, id: "password", placeholder: "Enter your password", required: true %>
       
-        <% if flash[:alert] %>
-          <p style="color: red; text-align: center;"><%= flash[:alert] %></p>
-        <% end %>
-      
         <button type="submit">Login</button>
       <% end %>
       

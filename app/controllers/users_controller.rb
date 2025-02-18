@@ -11,7 +11,7 @@ class UsersController < ApplicationController
 
     if @user.save
       session[:user_id] = @user.id
-      redirect_to root_path
+      redirect_to root_path, notice: "Account successfully created."
     else
       flash.now[:alert] = @user.errors.full_messages.to_sentence
       render :signin
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
 
   def update_email
     if @user.update(email_params)
-      redirect_to profile_path
+      redirect_to profile_path, notice: "Email successfully updated."
     else
       flash.now[:alert] = @user.errors.full_messages.to_sentence
       render :edit
@@ -31,14 +31,19 @@ class UsersController < ApplicationController
   end
 
   def update_password
-    if password_params[:password].blank?
-      flash.now[:alert] = "Das Passwort darf nicht leer sein."
-      render :edit
-      return
+
+    if password_params[:password] != password_params[:password_confirmation]
+      flash.now[:alert] = "Passwords do not match."
+      render :edit and return
+    end
+
+    if @user.authenticate(password_params[:password])
+      flash.now[:alert] = "The new password must be different from the current password."
+      render :edit and return
     end
 
     if @user.update(password_params)
-      redirect_to profile_path
+      redirect_to profile_path, notice: "Password successfully updated."
     else
       flash.now[:alert] = @user.errors.full_messages.to_sentence
       render :edit
@@ -48,12 +53,12 @@ class UsersController < ApplicationController
   def destroy
     if @user.destroy
       reset_session
-      redirect_to root_path
+      redirect_to root_path, notice: "Account successfully deleted."
     else
-      flash[:alert] = "Fehler beim Löschen des Accounts."
+      flash[:alert] = "Error deleting account."
       redirect_to profile_path
     end
-  end
+  end  
 
   private
 

@@ -14,31 +14,49 @@
   <link rel="icon" href="/icon.png" type="image/png">
   <link rel="apple-touch-icon" href="/icon.png">  
 
-  
-  <%= stylesheet_link_tag "application", media: "all" %>
+  <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
   <%= yield :extra_css %>
   <%= javascript_importmap_tags %>
 </head>
+<body>
+  <%# Flash-Messages werden als JS-Alert-Popup angezeigt und anschließend verworfen %>
+  <% if flash[:alert].present? || flash[:notice].present? %>
+    <script type="text/javascript">
+      function showFlash() {
+        <% if flash[:alert].present? %>
+          alert("<%= j flash[:alert] %>");
+        <% end %>
+        <% if flash[:notice].present? %>
+          alert("<%= j flash[:notice] %>");
+        <% end %>
+      }
+      if (window.Turbo) {
+        document.addEventListener("turbo:load", showFlash);
+      } else {
+        document.addEventListener("DOMContentLoaded", showFlash);
+      }
+    </script>
+    <% flash.discard %>
+  <% end %>
 
-  <body>
-    <%= yield %>
-    <script>
+  <%= yield %>
+  
+  <script>
     document.addEventListener("turbo:load", function() {
-  document.querySelectorAll(".share-btn").forEach(button => {
-    button.addEventListener("click", function() {
-      const link = this.getAttribute("data-link");
-      navigator.clipboard.writeText(link).then(() => {
-        this.setAttribute("title", "Copied!");
-        setTimeout(() => {
-          this.removeAttribute("title");
-        }, 2000);
-      }).catch(err => {
-        alert("Failed to copy.");
+      document.querySelectorAll(".share-btn").forEach(button => {
+        button.addEventListener("click", function() {
+          const link = this.getAttribute("data-link");
+          navigator.clipboard.writeText(link).then(() => {
+            this.setAttribute("title", "Copied!");
+            setTimeout(() => {
+              this.removeAttribute("title");
+            }, 2000);
+          }).catch(err => {
+            alert("Failed to copy.");
+          });
+        });
       });
     });
-  });
-});
-
-    </script>
-  </body>
+  </script>
+</body>
 </html>

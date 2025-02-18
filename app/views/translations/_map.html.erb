@@ -25,7 +25,13 @@
 			l3.9,6.4l-3.7,5.5l2.1,1.4L827.1,670.6z"/>
 	<polyline id="coast" class="nofill" points="804.6,659.9 804.1,662.8 801.5,662.7 797.7,661 794.1,660.7 791,659.2 787.3,659.9 
 		779.9,663.6 775.5,666.5"/>
-			<title>Dutch<%= params[:source_lang] == "nl" ? "" : (@translations["nl"]&.dig(:similarity) ? ": #{@translations["nl"][:similarity]}%" : "") %></title>
+			<title>Dutch<%= params[:source_lang] == "nl" ? "" : (
+				@translations["nl"] && @translations["nl"].dig(:similarity) ? 
+				  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("nl") ? 
+					 ": #{@translations["nl"][:transliterated]} / #{@translations["nl"][:original]} (#{@translations["nl"][:similarity]}%)" : 
+					 ": #{@translations["nl"][:original]} (#{@translations["nl"][:similarity]}%)") 
+				: "" 
+			  ) %></title>
 		</g>
 
     <polygon id="bg" fill="<%= colors["bg"] %>" points="1215.5,809.5 1206.5,808.5 1203.5,804.5 1200.5,807.5 1198.5,804.5 1193.5,807.5 1189.5,804.5 
@@ -36,14 +42,26 @@
 	1186.5,875.5 1185.5,871.5 1182.5,867.5 1186.5,865.5 1187.5,863.5 1191.5,862.5 1191.5,858.5 1195.5,858.5 1200.5,853.5 
 	1208.5,856.5 1212.5,852.5 1215.5,853.2 1209.5,848.5 1208.5,845.5 1205.5,844.5 1202.3,846 1202.5,843.5 1205.5,840.5 
 	1205.5,836.5 1209.5,835.5 1207.5,825.5 1206.5,823.5 1208.5,821.5 1208.5,818.5 1213.5,816.5 1215.5,817.6 ">
-	<title>Bulgarian<%= params[:source_lang] == "bg" ? "" : (@translations["bg"]&.dig(:similarity) ? ": #{@translations["bg"][:similarity]}%" : "") %></title>
+	<title>Bulgarian<%= params[:source_lang] == "bg" ? "" : (
+		@translations["bg"] && @translations["bg"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("bg") ? 
+			 ": #{@translations["bg"][:transliterated]} / #{@translations["bg"][:original]} (#{@translations["bg"][:similarity]}%)" : 
+			 ": #{@translations["bg"][:original]} (#{@translations["bg"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 	  </polygon>
 
 <polygon id="firom" fill="<%= colors["mk"] %>" points="1127.5,887.5 1127.5,876.5 1122.5,871.5 1119.5,870.5 1114.5,866.5 1110.5,865.5 
 	1101.5,870.5 1097.5,870.5 1095.5,872.5 1095.5,874.5 1091.5,873.5 1086.5,875.5 1085.5,882.5 1082.5,881.5 1082.5,886.5 
 	1084.5,889.5 1081.5,890.5 1084.5,893.5 1083.5,896.5 1090.5,905.5 1092.5,903.5 1094.3,905.5 1107.5,901.5 1111.5,895.5 
 	1122.5,894.5 1123.5,892.5 1125.5,892.5 1125.5,888.5 ">
-	<title>Mazedonian<%= params[:source_lang] == "mk" ? "" : (@translations["mk"]&.dig(:similarity) ? ": #{@translations["mk"][:similarity]}%" : "") %></title>
+	<title>Mazedonian<%= params[:source_lang] == "mk" ? "" : (
+		@translations["mk"] && @translations["mk"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("mk") ? 
+			 ": #{@translations["mk"][:transliterated]} / #{@translations["mk"][:original]} (#{@translations["mk"][:similarity]}%)" : 
+			 ": #{@translations["mk"][:original]} (#{@translations["mk"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 	  </polygon>
 
 	<g class="all" fill="<%= colors["sr-Latn"] %>">
@@ -55,12 +73,24 @@
 			1058.5,839.5 1052.5,833.5 1056.5,834.5 1059.5,833.5 1059.5,831.2 1056.5,830.5 1053.9,827.5 1049.5,827.5 1048.5,822.5 
 			1052.5,812.5 1049.5,812.5 1047.5,808.5 1047.9,804.5 1052.5,805.5 1052.5,803.4 1044.5,801.5 1044.5,798.5 1046.5,797.5 
 			1042.5,796 1042.5,791.5 1040.5,788.5 1043.3,785.3 1046.2,785.6 1050.1,782.5 1053.4,778.9 1055.6,780.5 1059,779.6 1061.4,778.9 
-			"/>
+			"><title>Serbian<%= params[:source_lang] == "sr-Latn" ? "" : (
+				@translations["sr-Latn"] && @translations["sr-Latn"].dig(:similarity) ? 
+				  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("sr-Latn") ? 
+					 ": #{@translations["sr-Latn"][:transliterated]} / #{@translations["sr-Latn"][:original]} (#{@translations["sr-Latn"][:similarity]}%)" : 
+					 ": #{@translations["sr-Latn"][:original]} (#{@translations["sr-Latn"][:similarity]}%)") 
+				: "" 
+			  ) %></title></polygon>
 		<polygon id="mn" points="1076.5,858.5 1073.5,859.5 1072.5,861.5 1072.5,866.5 1067.5,869.5 1065.5,864.5 1059.5,876.5 
 			1059.5,878.5 1061.5,880.5 1060.5,884.5 1057.5,882.5 1056.5,880.5 1052.5,877.5 1051.5,875.5 1047.5,876.5 1045.5,873.5 
 			1047.5,872.5 1043.5,871.5 1043.9,869.7 1044.5,866.5 1042.5,862.5 1042.5,859.5 1045.5,857.5 1046.5,852.5 1047.5,849.5 
-			1051.5,852.5 1051.5,849.5 1048.5,846.5 1054.5,845.5 1056.5,842.5 1059.5,843.5 1068.5,848.5 1069.5,852.5 "/>
-			<title>Serbian<%= params[:source_lang] == "sr-Latn" ? "" : (@translations["sr-Latn"]&.dig(:similarity) ? ": #{@translations["sr-Latn"][:similarity]}%" : "") %></title>
+			1051.5,852.5 1051.5,849.5 1048.5,846.5 1054.5,845.5 1056.5,842.5 1059.5,843.5 1068.5,848.5 1069.5,852.5 ">
+			<title>Montenegrin<%= params[:source_lang] == "sr-Latn" ? "" : (
+				@translations["sr-Latn"] && @translations["sr-Latn"].dig(:similarity) ? 
+				  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("sr-Latn") ? 
+					 ": #{@translations["sr-Latn"][:transliterated]} / #{@translations["sr-Latn"][:original]} (#{@translations["sr-Latn"][:similarity]}%)" : 
+					 ": #{@translations["sr-Latn"][:original]} (#{@translations["sr-Latn"][:similarity]}%)") 
+				: "" 
+			  ) %></title></polygon>
 					</g>
 
 <polygon id="bih" fill="<%= colors["bs"] %>" points="1043.9,869.7 1044.5,866.5 1042.5,862.5 1042.5,859.5 1045.5,857.5 1046.5,852.5 
@@ -70,7 +100,13 @@
 	1018.5,809.5 1014.5,810.5 1009.5,807.5 1007.5,810.5 1004.5,809.5 1001.5,810.5 1000.5,815.5 993.5,810.5 990.5,811.5 990.5,820.7 
 	993.5,822.5 999.5,831.5 997.5,834.5 1001.5,835.5 1015.5,850.5 1019,850.5 1019.5,855.5 1027.5,860.5 1026.5,863.5 1030.5,862.5 
 	1035,866.5 1041.5,869.5 ">
-	<title>Bosnian<%= params[:source_lang] == "bs" ? "" : (@translations["bs"]&.dig(:similarity) ? ": #{@translations["bs"][:similarity]}%" : "") %></title>
+	<title>Bosnian<%= params[:source_lang] == "bs" ? "" : (
+		@translations["bs"] && @translations["bs"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("bs") ? 
+			 ": #{@translations["bs"][:transliterated]} / #{@translations["bs"][:original]} (#{@translations["bs"][:similarity]}%)" : 
+			 ": #{@translations["bs"][:original]} (#{@translations["bs"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 	  </polygon>
 
 <polygon id="hr" fill="<%= colors["hr"] %>" points="1043.9,869.7 1041.5,869.5 1035,866.5 1030.5,862.5 1026.5,863.5 1027.5,860.5 1019.5,855.5 
@@ -84,7 +120,13 @@
 	960,819.8 960,816.3 961.5,818.5 963.5,811.5 966.5,808.5 971.5,812.5 974.5,814.5 976.5,824.5 982.5,831.5 988.5,833.5 
 	985.5,834.5 981.5,834.5 981.5,837.5 993.5,846.5 997.5,847.5 996.5,852.5 1003.5,849.5 1007.5,852.5 1013.5,852.5 1017.5,857.5 
 	1023.5,860.5 1025.5,865.5 1030.5,866.5 1039.5,870.5 1043.5,871.5 ">
-	<title>Croatian<%= params[:source_lang] == "hr" ? "" : (@translations["hr"]&.dig(:similarity) ? ": #{@translations["hr"][:similarity]}%" : "") %></title>
+	<title>Croatian<%= params[:source_lang] == "hr" ? "" : (
+		@translations["hr"] && @translations["hr"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("hr") ? 
+			 ": #{@translations["hr"][:transliterated]} / #{@translations["hr"][:original]} (#{@translations["hr"][:similarity]}%)" : 
+			 ": #{@translations["hr"][:original]} (#{@translations["hr"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 	  </polygon>
 
 	<g class="all" fill="<%= colors["ro"] %>">
@@ -102,7 +144,13 @@
 			1199.5,705.5 1201.5,708.5 1202.5,715.5 1207.5,721.5 1209.5,718.5 1211.5,720.5 1211.5,724.9 1213.5,727.5 1218.5,729.5 
 			1221.5,736.5 1225.5,738.5 1221.5,741.5 1218.5,738.5 1217.5,742.5 1213.5,740.5 1210.5,743.5 1208.5,739.5 1205.5,744.5 
 			1209.5,748.5 1207.5,751.5 1209.5,754.5 1205.5,755.5 1206.5,758.5 1203.5,760.5 1204.5,767.5 1200.5,767.5 "/>
-			<title>Romanian<%= params[:source_lang] == "ro" ? "" : (@translations["ro"]&.dig(:similarity) ? ": #{@translations["ro"][:similarity]}%" : "") %></title>
+			<title>Romanian<%= params[:source_lang] == "ro" ? "" : (
+				@translations["ro"] && @translations["ro"].dig(:similarity) ? 
+				  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("ro") ? 
+					 ": #{@translations["ro"][:transliterated]} / #{@translations["ro"][:original]} (#{@translations["ro"][:similarity]}%)" : 
+					 ": #{@translations["ro"][:original]} (#{@translations["ro"][:similarity]}%)") 
+				: "" 
+			  ) %></title>
 					</g>
 
 <g id="uk" class="all" fill="<%= colors["en"] %>">
@@ -130,13 +178,25 @@
 		<polygon points="654.6,502.3 659.8,497.8 661.5,490.2 665.4,484.3 670.8,479.2 675.5,476.8 677.4,472.2 679.8,467.8 
 		679.8,463.4 674.9,465.5 670.8,468.2 666.2,469.8 664.2,474.8 666.3,478.9 664.6,481.2 660.2,482.8 657.7,482.8 657.7,487.2 
 		658.6,490.2 657.5,495.4 657.1,497.4	"/>
-		<title>English<%= params[:source_lang] == "en" ? "" : (@translations["en"]&.dig(:similarity) ? ": #{@translations["en"][:similarity]}%" : "") %></title>
+		<title>English<%= params[:source_lang] == "en" ? "" : (
+			@translations["en"] && @translations["en"].dig(:similarity) ? 
+			  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("en") ? 
+				 ": #{@translations["en"][:transliterated]} / #{@translations["en"][:original]} (#{@translations["en"][:similarity]}%)" : 
+				 ": #{@translations["en"][:original]} (#{@translations["en"][:similarity]}%)") 
+			: "" 
+		  ) %></title>
 			</g>
 		<polygon id="uk-wal" class="region dotted" fill="<%= colors["cy"] %>" points="689.5,644.5 685.5,641.5 682.5,635.5 676.5,637.5 676.5,631.5 670.5,630.5 667.5,632.5 
 		662.5,630.5 663.5,624.5 670.5,625.5 672.5,623.5 678.5,622.5 685.5,614.5 684.5,604.5 676.5,605.5 681.5,600.5 689.5,597.5 
 		700.5,597.5 701.2,601.6 697.9,604.9 696.6,608.5 699,612.2 699,614.3 697.8,616.8 698.5,621.3 697.7,625 701,627.2 702.2,630.1 
 		701,634.3 698.1,637.8">
-		<title>Welsh<%= params[:source_lang] == "cy" ? "" : (@translations["cy"]&.dig(:similarity) ? ": #{@translations["cy"][:similarity]}%" : "") %></title>
+		<title>Welsh<%= params[:source_lang] == "cy" ? "" : (
+			@translations["cy"] && @translations["cy"].dig(:similarity) ? 
+			  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("cy") ? 
+				 ": #{@translations["cy"][:transliterated]} / #{@translations["cy"][:original]} (#{@translations["cy"][:similarity]}%)" : 
+				 ": #{@translations["cy"][:original]} (#{@translations["cy"][:similarity]}%)") 
+			: "" 
+		  ) %></title>
 			</polygon>
     <polygon id="uk-wal-STRIPE" class="region dotted stripe" fill="url(#stripe)" points="689.5,644.5 685.5,641.5 682.5,635.5 676.5,637.5 676.5,631.5 670.5,630.5 667.5,632.5 
 		662.5,630.5 663.5,624.5 670.5,625.5 672.5,623.5 678.5,622.5 685.5,614.5 684.5,604.5 676.5,605.5 681.5,600.5 689.5,597.5 
@@ -157,7 +217,13 @@
 	576.5,251.5 578.5,255.5 572.5,256.5 567.5,253.5 563.5,251.5 558.5,250.5 553.5,248.5 553.5,251.4 558.5,252.5 563.5,256.5 
 	567.5,256.5 565.5,261.5 566.5,266.5 571.5,264.5 570.5,267.5 567.5,269.5 571.5,272.5 565.5,272.5 563.5,275.5 558.5,276.5 
 	555.5,274.5 554.5,277.5 560.5,281.5 567.5,284.5 573.5,287.5 573.5,290.5 ">
-	<title>Icelandic<%= params[:source_lang] == "is" ? "" : (@translations["is"]&.dig(:similarity) ? ": #{@translations["is"][:similarity]}%" : "") %></title>
+	<title>Icelandic<%= params[:source_lang] == "is" ? "" : (
+		@translations["is"] && @translations["is"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("is") ? 
+			 ": #{@translations["is"][:transliterated]} / #{@translations["is"][:original]} (#{@translations["is"][:similarity]}%)" : 
+			 ": #{@translations["is"][:original]} (#{@translations["is"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 	  </polygon>
 
 <polygon id="pg" fill="<%= colors["pt-pt"] %>" points="551.5,849.5 562.5,847.5 560.5,854.5 566.7,854.5 573.5,858.5 579.5,857.5 589.3,858.5 
@@ -167,7 +233,13 @@
 	526.5,955.5 528.5,946.5 526.5,943.5 531.5,936.5 534.5,933.5 531.5,930.5 523.5,930.5 520.5,922.3 525.5,912.5 526.5,907.5 
 	529.5,908.5 539.5,894.5 542.5,892.5 540.5,889.5 544.5,881.5 548.5,879.5 548.5,874.5 549.5,868.5 548.5,857.5 552.5,855.5 
 	548.5,852.5 ">
-	<title>Portuguese<%= params[:source_lang] == "pt-pt" ? "" : (@translations["pt-pt"]&.dig(:similarity) ? ": #{@translations["pt-pt"][:similarity]}%" : "") %></title>
+	<title>Portuguese<%= params[:source_lang] == "pt-pt" ? "" : (
+		@translations["pt-pt"] && @translations["pt-pt"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("pt-pt") ? 
+			 ": #{@translations["pt-pt"][:transliterated]} / #{@translations["pt-pt"][:original]} (#{@translations["pt-pt"][:similarity]}%)" : 
+			 ": #{@translations["pt-pt"][:original]} (#{@translations["pt-pt"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 	  </polygon>
 
 	<g id="sp" class="all">
@@ -185,19 +257,37 @@
 626.5,831.5 615.5,825.5 611.5,821.5 607.5,823.5 602.2,821.5 594.5,820.5 588.7,820.5 582.5,811.5 578.5,813.5 574.5,810.5 
 562.5,816.5 553.5,819.5 548.5,823.5 550.5,828.5 556.5,829.5 555.5,834.5 553.5,837.5 556.5,840.5 552.5,844.5
 ">
-<title>Spanish<%= params[:source_lang] == "es" ? "" : (@translations["es"]&.dig(:similarity) ? ": #{@translations["es"][:similarity]}%" : "") %></title>
+<title>Spanish<%= params[:source_lang] == "es" ? "" : (
+	@translations["es"] && @translations["es"].dig(:similarity) ? 
+	  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("es") ? 
+		 ": #{@translations["es"][:transliterated]} / #{@translations["es"][:original]} (#{@translations["es"][:similarity]}%)" : 
+		 ": #{@translations["es"][:original]} (#{@translations["es"][:similarity]}%)") 
+	: "" 
+  ) %></title>
 </polygon>
 <polygon id="sp-gal" class="region dotted" fill="<%= colors["gl"] %>" points="594.5,820.5 588.7,820.5 582.5,811.5 578.5,813.5 574.5,810.5 562.5,816.5 553.5,819.5 
 		548.5,823.5 550.5,828.5 556.5,829.5 555.5,834.5 553.5,837.5 556.5,840.5 552.5,844.5 551.5,849.5 562.5,847.5 560.5,854.5 
 		566.7,854.5 573.5,858.5 579.5,857.5 589.3,858.5 589.1,853.9 593.1,850.8 595.4,848.8 594.5,845.2 591.4,843.4 591.5,839.3 
 		595.4,837.1 597.1,834.1 597.1,830.3 595.2,827.6 595.5,825.1">
-		<title>Galician<%= params[:source_lang] == "gl" ? "" : (@translations["gl"]&.dig(:similarity) ? ": #{@translations["gl"][:similarity]}%" : "") %></title>
+		<title>Galician<%= params[:source_lang] == "gl" ? "" : (
+			@translations["gl"] && @translations["gl"].dig(:similarity) ? 
+			  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("gl") ? 
+				 ": #{@translations["gl"][:transliterated]} / #{@translations["gl"][:original]} (#{@translations["gl"][:similarity]}%)" : 
+				 ": #{@translations["gl"][:original]} (#{@translations["gl"][:similarity]}%)") 
+			: "" 
+		  ) %></title>
 			</polygon>
 	<polyline id="sp-bas" class="region dotted" fill="<%= colors["eu"] %>" points="683.5,844.5 681.5,842.5 675.5,844.5 668.5,839.5 665,839.5 663.5,837.5 660,839.9 
 		658.7,840.6 656.5,840.3 655.7,843.2 657.9,842.2 659.2,842.9 659.2,845.8 660.7,846.8 660.5,848.5 658.2,847.5 656.5,848 
 		656.1,850.1 658.5,849.5 658.4,851.7 659.7,854.1 661.5,854.1 660.8,857.4 663.1,858.5 665,857.2 664.2,860 668.2,861.5 
 		669.6,861.5 668.8,858 671.3,857.4 673.5,853.2 673.8,850.5 676.4,851.5 678.2,849.5 678.8,847.5 681.3,846.5 683.5,844.5">
-		<title>Basque<%= params[:source_lang] == "eu" ? "" : (@translations["eu"]&.dig(:similarity) ? ": #{@translations["eu"][:similarity]}%" : "") %></title>
+		<title>Basque<%= params[:source_lang] == "eu" ? "" : (
+			@translations["eu"] && @translations["eu"].dig(:similarity) ? 
+			  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("eu") ? 
+				 ": #{@translations["eu"][:transliterated]} / #{@translations["eu"][:original]} (#{@translations["eu"][:similarity]}%)" : 
+				 ": #{@translations["eu"][:original]} (#{@translations["eu"][:similarity]}%)") 
+			: "" 
+		  ) %></title>
 			</polyline>
 		<g id="region-kat-and" class="region" fill="<%= colors["ca"] %>">
 	<polyline id="sp-kat" class="region dotted" points="723.5,865.5 725.5,861.5 731.5,865.5 736.5,868.5 736.5,872.5 742.5,872.5 
@@ -205,7 +295,13 @@
 		725.5,904.5 717.5,910.5 720.5,913.5 714.5,915.5 710.8,914.5 707.4,910.2 708.9,905.4 707.8,901.9 712.4,898.9 712.1,893.1 
 		714.1,890.2 713.6,885.5 717.7,882.6 719.2,879.7 721.6,876.8 721.7,871.5 723.4,869 721.8,867.3 723.5,865.5"/>
 		<polygon id="and" fill="<%= colors["ca"] %>"points="742.5,872.5 736.5,872.5 736.5,868.5 741.5,868.5 "/>
-		<title>Catalan<%= params[:source_lang] == "ca" ? "" : (@translations["ca"]&.dig(:similarity) ? ": #{@translations["ca"][:similarity]}%" : "") %></title>
+		<title>Catalan<%= params[:source_lang] == "ca" ? "" : (
+			@translations["ca"] && @translations["ca"].dig(:similarity) ? 
+			  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("ca") ? 
+				 ": #{@translations["ca"][:transliterated]} / #{@translations["ca"][:original]} (#{@translations["ca"][:similarity]}%)" : 
+				 ": #{@translations["ca"][:original]} (#{@translations["ca"][:similarity]}%)") 
+			: "" 
+		  ) %></title>
 				</g>
 
         <polygon id="sp-gal-STRIPE" class="region dotted stripe" fill="url(#stripe)" points="594.5,820.5 588.7,820.5 582.5,811.5 578.5,813.5 574.5,810.5 562.5,816.5 553.5,819.5 
@@ -258,7 +354,13 @@
 	<polygon id="lux" points="831.4,709.3 828.5,708.5 826.5,710.5 823.5,706.5 825,704.5 823.5,701.5 822.1,697.6 
 		825.5,692.8 827.7,691.3 829.6,691.3 829.2,695.8 830.2,698.6 833.5,700.2 835.8,701.6 834.7,704.2 832.1,705.8 "/>
 	<polygon id="mon" points="842.5,849.5 839.5,847.5 835.5,847.5 834.5,850.5 839.5,852.5 "/>
-	<title>French<%= params[:source_lang] == "fr" ? "" : (@translations["fr"]&.dig(:similarity) ? ": #{@translations["fr"][:similarity]}%" : "") %></title>
+	<title>French<%= params[:source_lang] == "fr" ? "" : (
+		@translations["fr"] && @translations["fr"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("fr") ? 
+			 ": #{@translations["fr"][:transliterated]} / #{@translations["fr"][:original]} (#{@translations["fr"][:similarity]}%)" : 
+			 ": #{@translations["fr"][:original]} (#{@translations["fr"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</g>
 	<g class="all" fill="<%= colors["de"] %>">
 		<polygon id="licht" points="881.6,770.4 879.5,769.5 879.5,767.3 881.5,762.6 884.5,761.5 882.5,765.5 884.5,769.5 "/>
@@ -289,7 +391,13 @@
 			928.5,773.5 929.7,776.5 938.5,779.5 953.5,781.5 960.5,783.5 964.5,782.5 967.5,783.5 971.5,780.5 973.5,776.5 982.5,777.5 
 			984.5,774.5 991.5,775.5 990.5,771.3 992.5,769.5 998.5,763.5 996.5,757.5 999.5,755.5 1001.5,754.5 1000.1,751 996.5,748.5 
 			1006.5,748.5 1005.5,743.5 1006.5,739.5 1000.5,731.5 1002,728 "/>
-			<title>German<%= params[:source_lang] == "de" ? "" : (@translations["de"]&.dig(:similarity) ? ": #{@translations["de"][:similarity]}%" : "") %></title>
+			<title>German<%= params[:source_lang] == "de" ? "" : (
+				@translations["de"] && @translations["de"].dig(:similarity) ? 
+				  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("de") ? 
+					 ": #{@translations["de"][:transliterated]} / #{@translations["de"][:original]} (#{@translations["de"][:similarity]}%)" : 
+					 ": #{@translations["de"][:original]} (#{@translations["de"][:similarity]}%)") 
+				: "" 
+			  ) %></title>
 		</g>
 		<g class="all" fill="<%= colors["ru"] %>">
 			<g id="ru_00000045589364394804045320000015756142168095977101_">
@@ -314,6 +422,13 @@
 					1054.6,557.9 1058.2,559.7 1060.6,558.3 1064.5,558.1 1066.1,560 1069,560.8 1069.3,563.8 1068.2,569 1070.2,573.7 1068,575.7 
 					1062.5,577.5 1049.7,579.1 1041.4,579.1 1032.6,579.2 1027.4,578.3 1029.7,574.4 1030.2,570.9 1029.2,567.3 1033.3,566.7 
 					1036.2,565.2 1038.5,566.5 1044.1,565.9 1047.3,564.3 1046.4,561.7 1045.5,558.3 	"/>
+					<title>Russian<%= params[:source_lang] == "ru" ? "" : (
+						@translations["ru"] && @translations["ru"].dig(:similarity) ? 
+						  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("ru") ? 
+							 ": #{@translations["ru"][:transliterated]} / #{@translations["ru"][:original]} (#{@translations["ru"][:similarity]}%)" : 
+							 ": #{@translations["ru"][:original]} (#{@translations["ru"][:similarity]}%)") 
+						: "" 
+					  ) %></title>
 			</g>
 			<path id="blr" d="M1116.6,532.1l2.3-2.3l1.1-3.8l2.9,0.2h2l3.2-0.6l1.2-5.4l5.2-3.7l3-1l6,2l7-1l3,5l9-7l12,3l2,12.1
 				v7.9l6.3,2.5l3.7,6.5l10,4.3l2,6.7l9-3l3,5l3,5l-4,7l-13-0.7v5.7l7,6l3,7l8,8l-9.4-0.6l-3.2,2.6l-3.7,1.4l-2.2,8.8l1.5,5.5l2.8,6
@@ -321,8 +436,13 @@
 				l-3.1,3.2l-3.7,2.9l-2.6-2.9l-4.3,1.8l-1.1-2.9h-3.1l-13.1,1.1l-3.8-1.1l-5.7,2.2h-6.6l-5.2,2.6h-5.1l-1.4,4.6l-3.4,4.9l-3.5-1.7
 				l-2.9,3.3l-0.8-6.9l-0.2-4.6l-3.5-2.8l-4.5-0.3v-4l5.5-4.9l4.6-4.6l-1.1-5.7l-5.8-11.4l-3.2-4.8l-2.9-6.9h3.8l4.7-2.2l3.1,1.5l2.6-1
 				l2.1-2.3l2.1-1.5l-0.2-2.4l3.9-0.9l0.3-2.3l1.9-2.1l2.7-0.3c0,0,1.3,2.9,1.6,2.8c0.3-0.1,2.8-2.5,2.8-2.5l-1.8-2.4l-2.5-0.9l1-4.2
-				l-0.4-3.7l-0.3-2.9l2.6-3.6l1.9-2.9l0.6-3.9l5.4,0.7l0.7-5h-2.1l-2.1-1.4V532.1z"/>
-				<title>Russian<%= params[:source_lang] == "ru" ? "" : (@translations["ru"]&.dig(:similarity) ? ": #{@translations["ru"][:similarity]}%" : "") %></title>
+				l-0.4-3.7l-0.3-2.9l2.6-3.6l1.9-2.9l0.6-3.9l5.4,0.7l0.7-5h-2.1l-2.1-1.4V532.1z"><title>Belarussian<%= params[:source_lang] == "ru" ? "" : (
+					@translations["ru"] && @translations["ru"].dig(:similarity) ? 
+					  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("ru") ? 
+						 ": #{@translations["ru"][:transliterated]} / #{@translations["ru"][:original]} (#{@translations["ru"][:similarity]}%)" : 
+						 ": #{@translations["ru"][:original]} (#{@translations["ru"][:similarity]}%)") 
+					: "" 
+				  ) %></title></path>
 							</g>
 
 <g id="dk" fill="<%= colors["da"] %>">
@@ -339,7 +459,13 @@
 		917.2,556 916.2,558.6 919.2,559.3 919.9,556.1 919.9,551.9 917.2,550.2 918.7,548.7 922.7,548.7 924.7,550.7 923.2,552.8 
 		924.7,555.6 925.2,557.4 923.4,559.4 920.6,560.9 920.5,563.3 923,566.6 923.9,568.2 919.7,569 919.1,570.9 920.5,573 919.4,574.9 
 		918.1,576.6 920,577.4 918.6,580.6 916.1,580.8 915.3,583.1 911.8,583.1 	"/>
-		<title>Danish<%= params[:source_lang] == "da" ? "" : (@translations["da"]&.dig(:similarity) ? ": #{@translations["da"][:similarity]}%" : "") %></title>
+		<title>Danish<%= params[:source_lang] == "da" ? "" : (
+			@translations["da"] && @translations["da"].dig(:similarity) ? 
+			  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("da") ? 
+				 ": #{@translations["da"][:transliterated]} / #{@translations["da"][:original]} (#{@translations["da"][:similarity]}%)" : 
+				 ": #{@translations["da"][:original]} (#{@translations["da"][:similarity]}%)") 
+			: "" 
+		  ) %></title>
 		</g>
 
 <path id="nw_00000142146028085637299520000016519041655684394666_" fill="<%= colors["nb"] %>" d="M910.6,466.8c-0.1-0.4,0.2-4.3,0.2-4.3l2.5-1.2
@@ -367,7 +493,13 @@
 	l-7.2,5.4l-2.1,7.5l6.2,3.3l4.9,4.7l4.7,1l-1.4,4.5c0,0,4.9,0.6,6.2,1c1.2,0.4,7-0.4,7-0.4l3.4-3.1l5.6-0.8l2.5-4.3
 	c0,0,3.7-1.6,3.9-2.5s2.7-3.9,2.7-3.9l2.1-4.5l2.6-2.5l1.5-4.7l4.1,4.5l4.7-4.1l0.4-5.6l-1.6-6.7h2.3l2.5-5.7l2.5,11.6l1.2,5.2h5.3
 	l1.8,4l2.3,4l2.7-8C912.4,472.7,910.7,467.2,910.6,466.8z">
-	<title>Norwegian<%= params[:source_lang] == "nb" ? "" : (@translations["nb"]&.dig(:similarity) ? ": #{@translations["nb"][:similarity]}%" : "") %></title>
+	<title>Norwegian<%= params[:source_lang] == "nb" ? "" : (
+		@translations["nb"] && @translations["nb"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("nb") ? 
+			 ": #{@translations["nb"][:transliterated]} / #{@translations["nb"][:original]} (#{@translations["nb"][:similarity]}%)" : 
+			 ": #{@translations["nb"][:original]} (#{@translations["nb"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</path>
 
 <path id="ir" fill="<%= colors["ga"] %>" d="M658.8,573.4l-2.2,1l0.9,2.8c0,0-0.8,3.4-0.7,3.7c0.1,0.3,1.3,2.7,1.3,2.7l-1.7,3.7l-0.5,3l1.3,5.7
@@ -381,7 +513,13 @@
 	l-2.3-2.9l5.3-1l4.9,1.3l0.4,2.8l2.3,1.1l2.1-1.8l3.5,3l2.8,1.7l-0.1-2.8l-0.1-3.3l4.4-0.2l3-1.5l0.7-2.1l-4.2-1.3l-3.2-0.6
 	l-1.2-1.9l2.4-0.3l3.8-0.4l1.2-2.3l-1.2-3.5l3.3-2.4l3.9,1.4l5.6,1.5l-2.7,2.6c0,0,1.2,1.6,1.5,1.6s2.7-3,2.7-3l1.5,2.7l-4,5h-5l2,4
 	l-8,2l3,7l6,3l4-0.6v-3.5l3-1.9l1.9,5.3l2.1,1.7l-1,4h4l4,1L658.8,573.4z">
-	<title>Irish<%= params[:source_lang] == "ga" ? "" : (@translations["ga"]&.dig(:similarity) ? ": #{@translations["ga"][:similarity]}%" : "") %></title>
+	<title>Irish<%= params[:source_lang] == "ga" ? "" : (
+		@translations["ga"] && @translations["ga"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("ga") ? 
+			 ": #{@translations["ga"][:transliterated]} / #{@translations["ga"][:original]} (#{@translations["ga"][:similarity]}%)" : 
+			 ": #{@translations["ga"][:original]} (#{@translations["ga"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</path>
 
 <g id="sw_00000129165100546309642700000002005098216969353372_" fill="<%= colors["sv"] %>">
@@ -407,13 +545,25 @@
 	<polygon points="1000.9,516.6 998.5,509.6 998.5,502.8 1004,496.6 1007.4,496.6 1004.9,502.5 1004.3,506.6 
 		1007.4,506.6 1005.2,511.1 	"/>
 	<polygon points="1009.2,444 1002.9,439.1 1007.4,436.3 1011.1,436.3 1014.5,440.2 1014.5,444 	"/>
-	<title>Swedish<%= params[:source_lang] == "sv" ? "" : (@translations["sv"]&.dig(:similarity) ? ": #{@translations["sv"][:similarity]}%" : "") %></title>
+	<title>Swedish<%= params[:source_lang] == "sv" ? "" : (
+		@translations["sv"] && @translations["sv"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("sv") ? 
+			 ": #{@translations["sv"][:transliterated]} / #{@translations["sv"][:original]} (#{@translations["sv"][:similarity]}%)" : 
+			 ": #{@translations["sv"][:original]} (#{@translations["sv"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 	</g>
 <g id="malta" fill="<%= colors["mt"] %>">
 	<polygon points="971.7,1037.4 975.4,1039.3 975.4,1042.8 980.7,1042.8 983.8,1040.1 981.7,1037.4 977.7,1037.4 
 		971.7,1035.5 	"/>
 	<polygon points="968.6,1037.3 967.2,1036.6 967.2,1034.8 968.2,1033.2 969.8,1034.3 969.5,1036.6 	"/>
-	<title>Maltese<%= params[:source_lang] == "mt" ? "" : (@translations["mt"]&.dig(:similarity) ? ": #{@translations["mt"][:similarity]}%" : "") %></title>
+	<title>Maltese<%= params[:source_lang] == "mt" ? "" : (
+		@translations["mt"] && @translations["mt"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("mt") ? 
+			 ": #{@translations["mt"][:transliterated]} / #{@translations["mt"][:original]} (#{@translations["mt"][:similarity]}%)" : 
+			 ": #{@translations["mt"][:original]} (#{@translations["mt"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 	</g>
 <g id="it_00000074408533247657424130000001384842754569218693_" fill="<%= colors["it"] %>">
 	<path d="M946.8,786.8l2.9,1.4l1.8,2.2l-2.7,2.9l2.7,2.5l-2,3.2l-6-0.2l0.3,3.1l-5.7,1.1l-4.2,3.4l-3.8,0.3l-2.3,2.3
@@ -439,7 +589,13 @@
 		l-2.2,2.7c0,0,0.1,3.1,0.3,3.6c0.2,0.5,2.7,3.3,2.7,3.3l1.6,1.8L864.2,968z"/>
 		<polygon id="snm" class="st1" points="931.6,841.9 933.5,843.7 933.5,847.2 929.1,848.5 	"/>
 	<polygon id="vat" class="st1" points="935.6,892.9 933.5,892.3 933.5,889.8 936.5,889.8 937.2,892.2 	"/>
-	<title>Italian<%= params[:source_lang] == "it" ? "" : (@translations["it"]&.dig(:similarity) ? ": #{@translations["it"][:similarity]}%" : "") %></title>
+	<title>Italian<%= params[:source_lang] == "it" ? "" : (
+		@translations["it"] && @translations["it"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("it") ? 
+			 ": #{@translations["it"][:transliterated]} / #{@translations["it"][:original]} (#{@translations["it"][:similarity]}%)" : 
+			 ": #{@translations["it"][:original]} (#{@translations["it"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 	</g>
 <g id="tr_00000176011378207364646290000008116203880233575299_" class="all">
 	<g class="land" fill="<%= colors["tr"] %>">
@@ -469,7 +625,13 @@
 		l-3.2,0.6l-3.4-2.3l0.9-3.1l3.7-3.7l-2.1-2l-2.9-0.5l0.8-2.8l-3.5-2l-0.2-3.5l1.2-4.2l-12.6,4.5l-2-1.8l0.9-2.9l-0.9-4.9l1.5-3.4
 		l2-4.6l2.5-3.1l2.5-3.1l5.4-2.8l3.4-1.5l2.9,3.1l5.2-1.5l2.5-2.8l-0.5-2.6h2.6l1.1,3.4l5.5-2.8l6.6-1.8l7.2-0.6l0.2-2.9l-6-0.3
 		l6.2-4l5.2-2.9l6-1.7l1.5-2.6l-6.8,0.8l-3.2,1.7l-2.6-2.3L1239.8,870.8z"/>
-		<title>Turkish<%= params[:source_lang] == "tr" ? "" : (@translations["tr"]&.dig(:similarity) ? ": #{@translations["tr"][:similarity]}%" : "") %></title>
+		<title>Turkish<%= params[:source_lang] == "tr" ? "" : (
+			@translations["tr"] && @translations["tr"].dig(:similarity) ? 
+			  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("tr") ? 
+				 ": #{@translations["tr"][:transliterated]} / #{@translations["tr"][:original]} (#{@translations["tr"][:similarity]}%)" : 
+				 ": #{@translations["tr"][:original]} (#{@translations["tr"][:similarity]}%)") 
+			: "" 
+		  ) %></title>
 				</g>
 		<path id="tr-kurd" class="region dotted" fill="<%= colors["kmr"] %>" d="M1468.2,773.4l-0.6-3.8l3.5-1.5l1.4,2.2l4.8-0.2l3.1,1.7v1.7l4.3-1.7l1.7,1.4v2.2l7.8,2.3
 		l1.5,4.8l-0.8,5.5l2.2,2.8l2.6,2.9l5.7-0.6l5.1-1.7l6.5-0.9l5.5,3.5l-4.9,0.3v3.8l0.9,4.6l-2.6,2l-2.9,1.7l0.9,1.5l3.8,2.5l1.2,4.3
@@ -481,7 +643,13 @@
 		l0.2-4.3l-4.6-0.9l-8.8,4.5l-5.1-1.2l-0.8-4.8l0.9-4.8l-5.4-4.9l7.2-1.8l4.2-2.9l0.3-5.8l8.6-0.9l2.9-1.2l1.7-5.2l3.4-1.5l1.2-5.2
 		l3.2,4l13.4,0.5l7.1-0.3l6.2,2.2l4.6-4.5l1.7-4.9l7.5-2.3l5.2-2.9l4.3-5.5l-3.8-0.9l-3.8-1.2l0.5-4l2.5-4.5l4-2.2l1.4,2.9l2.6-4
 		l4.2-0.5l1.1-3.8l-0.6-3.5l3.1-1.2l4.8-1.2l0.2-6.5l-1.7-3.8l0.6-3.1l-1.7-2.3L1468.2,773.4">
-		<title>Kurdish<%= params[:source_lang] == "kmr" ? "" : (@translations["kmr"]&.dig(:similarity) ? ": #{@translations["kmr"][:similarity]}%" : "") %></title>
+		<title>Kurdish<%= params[:source_lang] == "kmr" ? "" : (
+			@translations["kmr"] && @translations["kmr"].dig(:similarity) ? 
+			  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("kmr") ? 
+				 ": #{@translations["kmr"][:transliterated]} / #{@translations["kmr"][:original]} (#{@translations["kmr"][:similarity]}%)" : 
+				 ": #{@translations["kmr"][:original]} (#{@translations["kmr"][:similarity]}%)") 
+			: "" 
+		  ) %></title>
 				</path>
 
         <path id="tr-kurd-STRIPE" class="region dotted stripe" fill="url(#stripe)" d="M1468.2,773.4l-0.6-3.8l3.5-1.5l1.4,2.2l4.8-0.2l3.1,1.7v1.7l4.3-1.7l1.7,1.4v2.2l7.8,2.3
@@ -505,7 +673,13 @@
 		1052.9,466.3 1050.8,466.3 1051,470.1 	"/>
 	<path d="M1042.1,481.7v-4l2.8-1.1l2.8-3.2h5.3l2.5,1.8l-1.2,2.3l-0.6,2.9l-2.8,0.6l-3.6,2.3l-0.7,5.4
 		c0,0-2.8-0.9-2.4-1.2c0.4-0.3,0.9-4,0.9-4L1042.1,481.7z"/>
-		<title>Estonian<%= params[:source_lang] == "et" ? "" : (@translations["et"]&.dig(:similarity) ? ": #{@translations["et"][:similarity]}%" : "") %></title>
+		<title>Estonian<%= params[:source_lang] == "et" ? "" : (
+			@translations["et"] && @translations["et"].dig(:similarity) ? 
+			  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("et") ? 
+				 ": #{@translations["et"][:transliterated]} / #{@translations["et"][:original]} (#{@translations["et"][:similarity]}%)" : 
+				 ": #{@translations["et"][:original]} (#{@translations["et"][:similarity]}%)") 
+			: "" 
+		  ) %></title>
 		</g>
 <path id="lit" fill="<%= colors["lt"] %>" d="M1040.6,536.8h2.2v-3.9l9.8-5.7l4.5-0.4l4.5-1.1l3.8,0.9l2.9-1.8l4.2,0.6l2.9-1.7l4.1,1.4
 	c0,0,2.7-2.1,3.2-2.1s1.6,1.3,1.9,1.4c0.3,0.1,4.4-5.8,4.4-5.8l1.9,1.6l2.9,4.1l7-1.2l4.5,3l5,3.6l6.3,2.5v7l2.1,1.4h2.1l-0.7,5
@@ -513,7 +687,13 @@
 	l-2.7,0.3l-1.9,2.1l-0.3,2.3l-3.9,0.9l0.2,2.4l-2.1,1.5l-2.1,2.3l-2.6,1l-3.1-1.5l-4.7,2.2h-3.8l-0.7-4l-2.4-3l-4.4-0.1l-2.1-2.3
 	l-2.5,0.9l-1.9-4.7l1.1-5.2l-0.3-3l-3-0.8l-1.5-1.9l-3.9,0.2l-2.4,1.4l-3.6-1.7l-5.1-0.6l-2.9-2.1l-1.8-4.9l-1.6-4.9l-2.5-3.1V536.8
 	z">
-	<title>Lithuanian<%= params[:source_lang] == "lt" ? "" : (@translations["lt"]&.dig(:similarity) ? ": #{@translations["lt"][:similarity]}%" : "") %></title>	</path>
+	<title>Lithuanian<%= params[:source_lang] == "lt" ? "" : (
+		@translations["lt"] && @translations["lt"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("lt") ? 
+			 ": #{@translations["lt"][:transliterated]} / #{@translations["lt"][:original]} (#{@translations["lt"][:similarity]}%)" : 
+			 ": #{@translations["lt"][:original]} (#{@translations["lt"][:similarity]}%)") 
+		: "" 
+	  ) %></title>	</path>
 
 <path id="pl" fill="<%= colors["pl"] %>" d="M1082.2,582.2l-0.7-4l-2.4-3l-4.4-0.1l-2.1-2.3l-2.5,0.9l-2.2,1.9l-5.5,1.8l-12.8,1.6h-8.3l-8.8,0.2
 	l-5.2-0.9l-4.5,3.8l-6.5,0.9l-5.2-1.4l-2.8-6.3l-2-2.6h-5.1l-6.5,3.3l-6.9,4.3l-4.9,1.2l-2.8,3.5l-1.7,4.5l-6.9,2.2
@@ -524,7 +704,13 @@
 	l3.2-4l2.8,0.3l4.3,1.1h3.4l0.6-3.6l5.7-0.8l6.9,1.4l2.3,3l5.7,1.3l8.3,0.5l-2-2.8l-1.4-2.6l-2-4.5l0.6-3.8l10.3-20l5.4-3.1l1.5-3.7
 	l-2.6-4.2l-1.1-2.2l2.5-0.8l-9.2-8.2l-1.1-4.3l-1.8-3.2l-0.8-6.9l-0.2-4.6l-3.5-2.8l-4.5-0.3v-4l5.5-4.9l4.6-4.6l-1.1-5.7l-5.8-11.4
 	l-3.2-4.8L1082.2,582.2z">
-	<title>Polish<%= params[:source_lang] == "pl" ? "" : (@translations["pl"]&.dig(:similarity) ? ": #{@translations["pl"][:similarity]}%" : "") %></title>
+	<title>Polish<%= params[:source_lang] == "pl" ? "" : (
+		@translations["pl"] && @translations["pl"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("pl") ? 
+			 ": #{@translations["pl"][:transliterated]} / #{@translations["pl"][:original]} (#{@translations["pl"][:similarity]}%)" : 
+			 ": #{@translations["pl"][:original]} (#{@translations["pl"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</path>
 	<g class="all" fill="<%= colors["sq"] %>">
 		<polygon id="ks" points="1101.5,870.5 1097.5,870.5 1095.5,872.5 1095.5,874.5 1091.5,873.5 1086.5,875.5 1085.5,882.5 
@@ -535,7 +721,13 @@
 			c0,0,3.1,2.7,3.2,2.9c0.1,0.2,0.6,1.8,0.6,1.8h-4.1l1.2,1.9l5.5,3.1c0,0,3.7,1,4.1,1.5s2.3,3.6,2.3,3.8s2.4,0.9,2.4,0.9l-0.4,3.5
 			l3.1,0.8l2.4-1l0.4-2.2c0,0,2.2-0.2,2.2-0.4c0-0.2-0.8-2.4-0.8-2.4l-1.6-1.8l1.9-1.7l3.7-1.6l0.9-3.5l0.8-5.2l1.8-1.2l1.6-1.8
 			l0.8-3.6L1094.3,905.5z"/>
-			<title>Albanian<%= params[:source_lang] == "sq" ? "" : (@translations["sq"]&.dig(:similarity) ? ": #{@translations["sq"][:similarity]}%" : "") %></title>
+			<title>Albanian<%= params[:source_lang] == "sq" ? "" : (
+				@translations["sq"] && @translations["sq"].dig(:similarity) ? 
+				  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("sq") ? 
+					 ": #{@translations["sq"][:transliterated]} / #{@translations["sq"][:original]} (#{@translations["sq"][:similarity]}%)" : 
+					 ": #{@translations["sq"][:original]} (#{@translations["sq"][:similarity]}%)") 
+				: "" 
+			  ) %></title>
 					</g>
 <g id="gr" fill="<%= colors["el"] %>">
 	<polygon points="1099.4,971.1 1094.8,969.8 1092.6,965.1 1094.3,962.6 1096,967.5 1100.2,969.1 	"/>
@@ -563,14 +755,26 @@
 		<polygon id="zy-gr" points="1369.5,984.5 1365.5,985.5 1361.5,986.8 1361.5,990.5 1351.5,997 1351.5,1000.5 
 		1348.5,997.5 1346.2,999.5 1339.5,999.5 1338.5,997.5 1335.5,993.5 1339.5,991.5 1340.5,988.5 1345.5,988.5 1348.1,988.5 1350,986 
 		1353.5,985.4 1355.7,984.5 1357.1,986 1357.8,988 1359.7,986 1362.2,984.5 	"/>
-		<title>Greek<%= params[:source_lang] == "el" ? "" : (@translations["el"]&.dig(:similarity) ? ": #{@translations["el"][:similarity]}%" : "") %></title>
+		<title>Greek<%= params[:source_lang] == "el" ? "" : (
+			@translations["el"] && @translations["el"].dig(:similarity) ? 
+			  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("el") ? 
+				 ": #{@translations["el"][:transliterated]} / #{@translations["el"][:original]} (#{@translations["el"][:similarity]}%)" : 
+				 ": #{@translations["el"][:original]} (#{@translations["el"][:similarity]}%)") 
+			: "" 
+		  ) %></title>
 		</g>
 <polyline id="slow" fill="<%= colors["sl"] %>" points="953.5,781.5 946.8,786.8 949.7,788.2 951.5,790.3 948.8,793.2 951.5,795.7 951.5,796.9 
 	953.5,799.3 957.1,802.6 953.5,804.5 951.5,807.5 957.5,807.5 960,805.1 965.5,805.5 968.5,801.5 973.5,806.5 975.5,804.5 
 	978.5,806.5 982.5,805.5 980.5,802.8 982.5,800.5 980.5,799.5 982.5,796.5 985.5,797.2 987.5,794.5 985.5,789 985.5,786.5 
 	992.5,784.5 993.5,781.5 996.5,781.5 995.8,778.5 1000.5,778.5 996.8,773.2 995.2,769.5 992.5,769.5 990.5,771.3 991.5,775.5 
 	984.5,774.5 982.5,777.5 973.5,776.5 971.5,780.5 967.5,783.5 964.5,782.5 960.5,783.5 953.5,781.5 ">
-	<title>Slovenian<%= params[:source_lang] == "sl" ? "" : (@translations["sl"]&.dig(:similarity) ? ": #{@translations["sl"][:similarity]}%" : "") %></title>
+	<title>Slovenian<%= params[:source_lang] == "sl" ? "" : (
+		@translations["sl"] && @translations["sl"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("sl") ? 
+			 ": #{@translations["sl"][:transliterated]} / #{@translations["sl"][:original]} (#{@translations["sl"][:similarity]}%)" : 
+			 ": #{@translations["sl"][:original]} (#{@translations["sl"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</polyline>
 
 <polygon id="slk" fill="<%= colors["sk"] %>" points="1089.4,702 1088.7,706.2 1088.5,710.5 1086.7,713.6 1085.1,716 1085.9,718.1 1085.2,720.4 
@@ -581,7 +785,13 @@
 	1020.5,706.9 1024.8,703.9 1029.7,700.5 1032.2,701.8 1033.4,703.5 1036.6,700.5 1039.2,696.6 1041.2,700.5 1044.9,701.8 
 	1045.2,705.4 1048.8,705.4 1051.7,703.1 1054.9,699.1 1057.7,699.4 1062,700.5 1065.4,700.5 1066,696.9 1071.7,696.2 1078.6,697.5 
 	1080.9,700.5 1086.6,701.8 ">
-	<title>Slovak<%= params[:source_lang] == "sk" ? "" : (@translations["sk"]&.dig(:similarity) ? ": #{@translations["sk"][:similarity]}%" : "") %></title>
+	<title>Slovak<%= params[:source_lang] == "sk" ? "" : (
+		@translations["sk"] && @translations["sk"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("sk") ? 
+			 ": #{@translations["sk"][:transliterated]} / #{@translations["sk"][:original]} (#{@translations["sk"][:similarity]}%)" : 
+			 ": #{@translations["sk"][:original]} (#{@translations["sk"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</polygon>
 
 <polygon id="ung" fill="<%= colors["hu"] %>" points="1000.5,778.5 996.8,773.2 995.2,769.5 992.5,769.5 998.5,763.5 996.5,757.5 999.5,755.5 
@@ -592,7 +802,13 @@
 	1098.7,725.5 1101.5,729.5 1096.5,734.5 1090.5,736.5 1088.5,745.5 1085.5,748.5 1083.5,754.5 1080.5,765.5 1077.5,774.5 
 	1072.5,774.5 1071.5,777.5 1064.5,779.5 1061.4,778.9 1059,779.6 1055.6,780.5 1053.4,778.9 1050.1,782.5 1046.2,785.6 
 	1043.3,785.3 1040.5,788.5 1037.3,788.5 1034.5,792.5 1024.5,794.5 1019.5,790.5 1014.5,790.5 ">
-	<title>Hungarian<%= params[:source_lang] == "hu" ? "" : (@translations["hu"]&.dig(:similarity) ? ": #{@translations["hu"][:similarity]}%" : "") %></title>
+	<title>Hungarian<%= params[:source_lang] == "hu" ? "" : (
+		@translations["hu"] && @translations["hu"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("hu") ? 
+			 ": #{@translations["hu"][:transliterated]} / #{@translations["hu"][:original]} (#{@translations["hu"][:similarity]}%)" : 
+			 ": #{@translations["hu"][:original]} (#{@translations["hu"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</polygon>
 
 <polygon id="cz" fill="<%= colors["cs"] %>" points="963.5,675.2 960.8,672.3 957.2,668.7 955.3,671.2 957.8,673.3 956,674.5 951.1,675.8 
@@ -604,7 +820,13 @@
 	1022.9,690.6 1018.5,690.6 1016.3,690.6 1012.6,690.6 1011.4,688.5 1008.6,687.2 1010.3,686.2 1010.5,683.5 1007.5,684.9 
 	1002.6,684.5 999.1,681.7 996.9,682.6 998.6,686.6 996.8,688.3 994.2,690 991.2,686.8 987.4,683.7 987.5,680.5 988.6,677.4 
 	986.2,678.2 982.3,678.2 980,675.7 973.8,674.6 971.5,672.5 969.2,670.3 966,672.5 ">
-	<title>Czech<%= params[:source_lang] == "cs" ? "" : (@translations["cs"]&.dig(:similarity) ? ": #{@translations["cs"][:similarity]}%" : "") %></title>
+	<title>Czech<%= params[:source_lang] == "cs" ? "" : (
+		@translations["cs"] && @translations["cs"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("cs") ? 
+			 ": #{@translations["cs"][:transliterated]} / #{@translations["cs"][:original]} (#{@translations["cs"][:similarity]}%)" : 
+			 ": #{@translations["cs"][:original]} (#{@translations["cs"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</polygon>
 
 <path id="uk" fill="<%= colors["uk"] %>" d="M1101.5,729.5l2-5l5,3l4-2l8,1l6-3l8,5l4-6l10-3
@@ -621,7 +843,13 @@
 	l1.8,3.2l1.1,4.3l9.2,8.2l-2.5,0.8l1.1,2.2l2.6,4.2l-1.5,3.7l-5.4,3.1l-10.3,20l-0.6,3.8l2,4.5l1.4,2.6l2,2.8l-5.5-0.3
 	c0,0-0.7,4.2-0.7,4.2l-0.2,4.2l-1.8,3.2l-1.6,2.4l0.8,2.1l-0.7,2.3l2.8-0.6l0.9,2.5l4.2,0.4l0.7,3.4l2.2-0.8l2.5,0.2L1101.5,729.5z"
 	>
-	<title>Ukrainian<%= params[:source_lang] == "uk" ? "" : (@translations["uk"]&.dig(:similarity) ? ": #{@translations["uk"][:similarity]}%" : "") %></title>
+	<title>Ukrainian<%= params[:source_lang] == "uk" ? "" : (
+		@translations["uk"] && @translations["uk"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("uk") ? 
+			 ": #{@translations["uk"][:transliterated]} / #{@translations["uk"][:original]} (#{@translations["uk"][:similarity]}%)" : 
+			 ": #{@translations["uk"][:original]} (#{@translations["uk"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</path>
 
 <path id="lett" fill="<%= colors["lv"] %>" d="M1116.6,485.5l6,4.4v8.6l4,4l6,7l2,7l-5.2,3.7l-1.2,5.4l-3.2,0.6h-2l-2.9-0.2l-1.1,3.8l-2.3,2.3
@@ -629,7 +857,13 @@
 	l-2.9,1.7l-4.2-0.6l-2.9,1.8l-3.8-0.9l-4.5,1.1l-4.5,0.4l-9.8,5.7v3.9h-2.2l-2.9-5.1v-7.5l-1.1-4.6l2.8-2.9l1.7-3.2l0.3-5.7l-0.3-6
 	l6.3-4.2l4.5-3.4l2,2.5l3.7,2.8l3.7,1.8l1.4,4l2.8,3.7l4,0.7l3.8-0.7l3.8-5.1l2.6-4.9l-3.6-6.8l-1.8-4.1l1.8-1.8l5.1-5.4l2.6-1.1
 	l1.5,1.3l1.6-2.6l3.1,3.2l2.4-1.2l1.5,2.5l2.5-0.7l2.1,3.4l6.1,2.6l3.7-3.8l5.4,1.5L1116.6,485.5">
-	<title>Latvian<%= params[:source_lang] == "lv" ? "" : (@translations["lv"]&.dig(:similarity) ? ": #{@translations["lv"][:similarity]}%" : "") %></title>
+	<title>Latvian<%= params[:source_lang] == "lv" ? "" : (
+		@translations["lv"] && @translations["lv"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("lv") ? 
+			 ": #{@translations["lv"][:transliterated]} / #{@translations["lv"][:original]} (#{@translations["lv"][:similarity]}%)" : 
+			 ": #{@translations["lv"][:original]} (#{@translations["lv"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</path>
 
 <path id="fin" fill="<%= colors["fi"] %>" d="M1100.8,411.7l-0.7,2.2l-2.6,1.7l-2.9-2.6l-2.3,0.7l-0.5,3.6l-4.4,1.2l-0.6-2.8l-2.3-0.9l0.6,5.2
@@ -643,14 +877,26 @@
 	l5-3.3l5.1,3l2.4,0.1l0.5-5.2l1.5-2.6l2.5-0.1l-0.6-4.9c0,0-1.2-4.9-1.3-5.3c-0.1-0.4-0.1-5.2-0.1-5.2l-0.8-4.8l1.8-3.8l1.2-2.7
 	l2.8-0.1l2.8-0.5l2.5-3.9l3.2-1.4c0,0,2.2,3.3,2.2,3.5c0,0.2,6.2,2.5,6.2,2.5l6.1,3.9l0.5,2.8l-3,5.2l1.7,2.7l3,2.3l-3,3l2,7l3,9
 	l9,3l9,7l-6,20l6,5l15,21h-4l3,12.3v4.7l9,4.9v7.1l4,1.8l5,5.2l-3,9l22,13l-2,13l-12,35l-10,19L1100.8,411.7z">
-	<title>Finnish<%= params[:source_lang] == "fi" ? "" : (@translations["fi"]&.dig(:similarity) ? ": #{@translations["fi"][:similarity]}%" : "") %></title>
+	<title>Finnish<%= params[:source_lang] == "fi" ? "" : (
+		@translations["fi"] && @translations["fi"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("fi") ? 
+			 ": #{@translations["fi"][:transliterated]} / #{@translations["fi"][:original]} (#{@translations["fi"][:similarity]}%)" : 
+			 ": #{@translations["fi"][:original]} (#{@translations["fi"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</path>
 
 <path id="georg" fill="<%= colors["ka"] %>" d="M1526.6,729.5l-15,2l-3-8l-6,3l-9-2l-1,5l-5-2l-6.2,9l-7.8,1l1.7-3h-14.5h-10.5l-6.7,3l-12,4h-12.7
 	l-8.3,2l-2,5h4.3l1.8,2.6h3.9h3.7l3.5-1.8l4.3,1l1.8,2.5h3.9l4.7,1.6l1.8,4.1l3.3,4.3l4.3,3.9l2.5,4.7l-0.8,5.1l-1.7,3.5l6.8-0.9
 	l1.2-3.2l4.5-1.1l5.7-1.4l-0.6-3.8l3.5-1.5l1.4,2.2l4.8-0.2l3.1,1.7v1.7l4.3-1.7l1.7,1.4l4.6-3.9l4.3-4.3l8-3.7l4.1-2.3l1.4-3.3
 	l2.7-4.9l5.3-2.7l5.1,0.2l2.5,2.7l2.3-1.6l4.1-2.5l3.1,1h2.5l1.4-4.3l-1.8-2.9l-7-0.6l-3.9-2.5l-1.4-2.7l2.5-1.4L1526.6,729.5z">
-	<title>Georgian<%= params[:source_lang] == "ka" ? "" : (@translations["ka"]&.dig(:similarity) ? ": #{@translations["ka"][:similarity]}%" : "") %></title>
+	<title>Georgian<%= params[:source_lang] == "ka" ? "" : (
+		@translations["ka"] && @translations["ka"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("ka") ? 
+			 ": #{@translations["ka"][:transliterated]} / #{@translations["ka"][:original]} (#{@translations["ka"][:similarity]}%)" : 
+			 ": #{@translations["ka"][:original]} (#{@translations["ka"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</path>
 
 <polygon id="arm" fill="<%= colors["hy"] %>" points="1508.7,755.6 1507.3,758.9 1503.2,761.1 1495.2,764.8 1490.9,769.1 1486.3,773.1 
@@ -660,7 +906,13 @@
 	1554.6,788.5 1557.1,787.4 1555.5,785.8 1551.4,785.4 1551.7,782.5 1552.3,780.2 1548.6,781.4 1545.8,782.8 1542,780.5 1538,779.7 
 	1532.8,779.2 1534.8,777.3 1536.3,775.1 1536.6,772.5 1533.4,769.7 1528.6,769.5 1524.2,768.3 1521.7,765.4 1524,761.5 
 	1522.2,760.2 1518.8,759.7 1518,758.2 1515.4,759.8 1511.8,760.9 1513.4,757.2 1510.9,757.2 ">
-	<title>Armenian<%= params[:source_lang] == "hy" ? "" : (@translations["hy"]&.dig(:similarity) ? ": #{@translations["hy"][:similarity]}%" : "") %></title>
+	<title>Armenian<%= params[:source_lang] == "hy" ? "" : (
+		@translations["hy"] && @translations["hy"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("hy") ? 
+			 ": #{@translations["hy"][:transliterated]} / #{@translations["hy"][:original]} (#{@translations["hy"][:similarity]}%)" : 
+			 ": #{@translations["hy"][:original]} (#{@translations["hy"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</polygon>
 
 <g id="azer" fill="<%= colors["az"] %>">
@@ -675,12 +927,24 @@
 	<polygon points="1522.5,793.8 1524.9,789.4 1527.5,789.2 1529.8,793.1 1531.4,790.9 1534.8,791.7 1537.7,788.6 
 		1541.4,787.2 1542.3,789.2 1542.3,791.8 1546.2,792.3 1547.8,793.8 1551.1,796.8 1553.7,799.1 1550.5,801.2 1545.5,801.8 
 		1540.3,803.2 1537.6,800.9 1533.4,800.2 1530.6,798.3 1527.8,798 1525.5,795.2 	"/>
-		<title>Azerbaijani<%= params[:source_lang] == "az" ? "" : (@translations["az"]&.dig(:similarity) ? ": #{@translations["az"][:similarity]}%" : "") %></title>
+		<title>Azerbaijani<%= params[:source_lang] == "az" ? "" : (
+			@translations["az"] && @translations["az"].dig(:similarity) ? 
+			  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("az") ? 
+				 ": #{@translations["az"][:transliterated]} / #{@translations["az"][:original]} (#{@translations["az"][:similarity]}%)" : 
+				 ": #{@translations["az"][:original]} (#{@translations["az"][:similarity]}%)") 
+			: "" 
+		  ) %></title>
 		</g>
 
 <polygon id="fero" fill="<%= colors["fo"] %>" points="700.6,384.6 702.2,377.5 703.7,372 709,367.7 700.6,365.8 691.4,365.8 692.9,370.2 
 	696.9,372 697.8,377.8 ">
-	<title>Faroese<%= params[:source_lang] == "fo" ? "" : (@translations["fo"]&.dig(:similarity) ? ": #{@translations["fo"][:similarity]}%" : "") %></title>
+	<title>Faroese<%= params[:source_lang] == "fo" ? "" : (
+		@translations["fo"] && @translations["fo"].dig(:similarity) ? 
+		  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("fo") ? 
+			 ": #{@translations["fo"][:transliterated]} / #{@translations["fo"][:original]} (#{@translations["fo"][:similarity]}%)" : 
+			 ": #{@translations["fo"][:original]} (#{@translations["fo"][:similarity]}%)") 
+		: "" 
+	  ) %></title>
 		</polygon>
 
 <g class="all" fill="<%= colors["ar"] %>">
@@ -693,7 +957,13 @@
 		l2,3l-14,2l-12-1l-12,5l-32.2-5.8l-30.8-2.2l-11,5l-14.9-2.7l-15.1-3.3l-16.4,3.4l-16.6-3.4L664,1055H651.5z"/>
 	<path id="tun" class="st0" d="M857.5,1054.5l-2-3l2-5c0,0-2-7-2-8s3-11,3-11l-4-4l5-2l-1-3l4-0.1v-2.9l4-1l8-5l12-4l-1,6l5-3h3v5.5
 		l4,3.5v3l12-8l3,4c0,0-4,2-4,3s-2,6-2,6l-7,5l-1,5l3,5l4,3l1,2l4,1v8l-11,2l-8.4-2l-15.6,2l-9-1L857.5,1054.5z"/>
-		<title>Arabic<%= params[:source_lang] == "ar" ? "" : (@translations["ar"]&.dig(:similarity) ? ": #{@translations["ar"][:similarity]}%" : "") %></title>
+		<title>Arabic<%= params[:source_lang] == "ar" ? "" : (
+			@translations["ar"] && @translations["ar"].dig(:similarity) ? 
+			  (TranslationsController::TRANSLITERATION_LANGUAGES.include?("ar") ? 
+				 ": #{@translations["ar"][:transliterated]} / #{@translations["ar"][:original]} (#{@translations["ar"][:similarity]}%)" : 
+				 ": #{@translations["ar"][:original]} (#{@translations["ar"][:similarity]}%)") 
+			: "" 
+		  ) %></title>
 		</g>
 		<p style="text-align: right; pointer-events: none; margin: 0 10px 10px 0;">Hold Shift to zoom</p>
 </svg>

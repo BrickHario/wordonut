@@ -28,4 +28,9 @@
 #       enabled: "ON"
 
 en:
+  activerecord:
+    errors:
+      messages:
+        confirmation: "does not match"
   hello: "Hello world"
+

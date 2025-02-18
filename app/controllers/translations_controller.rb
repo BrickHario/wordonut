@@ -5,7 +5,7 @@ class TranslationsController < ApplicationController
   TARGET_LANGUAGES = %w[da nl en fo de is nb sv ca fr gl it pt-pt ro es mt ar bs bg hr mk sr-Latn sl sk cs pl ru uk lv lt sq hy az eu et fi ka el hu kmr tr cy ga].freeze
   TRANSLITERATION_LANGUAGES = %w[hy ka el mk ru uk bg ar].freeze
   LANGUAGE_NAMES = {
-    "sq" => "Albanian", "hy" => "Armenian", "az" => "Azerbaijani", "eu" => "Basque",
+    "sq" => "Albanian", "ar" => "Arabic", "hy" => "Armenian", "az" => "Azerbaijani", "eu" => "Basque",
     "bs" => "Bosnian", "bg" => "Bulgarian", "ca" => "Catalan", "hr" => "Serbo-Croatian",
     "cs" => "Czech", "da" => "Danish", "nl" => "Dutch", "en" => "English",
     "et" => "Estonian", "fo" => "Faroese", "fi" => "Finnish", "fr" => "French",
@@ -15,7 +15,7 @@ class TranslationsController < ApplicationController
     "mt" => "Maltese", "nb" => "Norwegian", "pl" => "Polish", "pt-pt" => "Portuguese",
     "ro" => "Romanian", "ru" => "Russian", "sr-Latn" => "Serbian", "sk" => "Slovak",
     "sl" => "Slovenian", "es" => "Spanish", "sv" => "Swedish", "tr" => "Turkish",
-    "uk" => "Ukrainian", "cy" => "Welsh", "ar" => "Arabic"
+    "uk" => "Ukrainian", "cy" => "Welsh"
   }.freeze
   SIMILAR_LETTERS = {
     "v" => [ "w", "f" ], "w" => [ "v" ], "d" => [ "t", "ð" ], "t" => [ "d" ], "b" => [ "p" ],
@@ -76,24 +76,21 @@ class TranslationsController < ApplicationController
   
     # Basis-Validierung
     if text.blank? || source_lang.blank?
-      flash[:alert] = "Type a word and select a language."
       session[:last_searched_word] = nil
       session[:last_searched_lang] = nil
-      redirect_to root_path and return
+      redirect_to root_path, notice: "Select a language." and return
     end
   
     if text.count(" ") > 2
-      flash[:alert] = "Type single words only."
       session[:last_searched_word] = nil
       session[:last_searched_lang] = nil
-      redirect_to root_path and return
+      redirect_to root_path, notice: "Type single words only." and return
     end
   
     if text.length > 20
-      flash[:alert] = "20 characters: Max. length"
       session[:last_searched_word] = nil
       session[:last_searched_lang] = nil
-      redirect_to root_path and return
+      redirect_to root_path, notice: "20 characters: Max. length" and return
     end
   
     session[:last_searched_word] = text
@@ -114,10 +111,9 @@ class TranslationsController < ApplicationController
   
     # Falls weder Synonyme noch (Etymologie und Bedeutung) gefunden wurden
     if @translated_synonyms.blank? && (@word_data.nil? || (@word_data[:etymology].blank? && @word_data[:meaning].blank?))
-      flash[:alert] = "Word not found."
       session[:last_searched_word] = nil
       session[:last_searched_lang] = nil
-      redirect_to root_path and return
+      redirect_to root_path, notice: "Word not found." and return
     end
   
     @word_array = split_word_to_array(text)

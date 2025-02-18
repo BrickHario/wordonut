@@ -35,10 +35,6 @@
             { prompt: session[:last_searched_lang].present? ? nil : "Choose language" } %>
     </div>
 
-    <% if flash[:alert] %>
-      <p style="color: red; text-align: center;"><%= flash[:alert] %></p>
-    <% end %>
-
     <div>
       <%= form.submit "Translate", class: "submit" %>
     </div>
@@ -107,6 +103,9 @@
           <li>
             In this section, you’ll find a detailed list sorted by language families (e.g., Romance, Germanic, Slavic).
           </li>
+          <li>
+            Note that the translations for Russian ↔ Belarusian and Serbian ↔ Montenegrin are identical.
+          </li>
         </ul>
       </div>
     <% end %>
@@ -143,7 +142,11 @@
 
   <div id="info" class="search-info">
     <% if @word_data.present? %>
-      <% transliterated_title = Unidecoder.decode(@word_data[:title]) %>
+      <% if TranslationsController::TRANSLITERATION_LANGUAGES.include?(params[:source_lang]) %>
+    <% transliterated_title = Unidecoder.decode(@word_data[:title]) %>
+  <% else %>
+    <% transliterated_title = @word_data[:title] %>
+  <% end %>
 <h1>
   <%= @word_data[:title] %>
   <% if @word_data[:title] != transliterated_title %>
@@ -171,9 +174,6 @@
           </h1>
           <h2>Tips for Better Results:</h2>
           <ul>
-          <li>
-              Use only Latin alphabet.
-          </li>
             <li>
               Use singular forms for nouns and base forms for verbs for better accuracy.
           </li>
@@ -185,7 +185,7 @@
           </li>
           <li>
             Try searching for common synonyms if your word doesn't yield results.
-            </li>
+          </li>
         </ul>
         </div>
       <% end %>
