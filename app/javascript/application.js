@@ -11,22 +11,32 @@ document.addEventListener("turbo:load", () => {
   zoom();
 });
 
-document.addEventListener("turbo:load", function() {
-  // Lade-Overlay beim Absenden des Formulars anzeigen
-  var translateForm = document.getElementById("translate-form");
-  if (translateForm) {
-    translateForm.addEventListener("submit", function() {
-      document.getElementById("loading-overlay").style.display = "flex";
-    });
-  }
+function showLoadingOverlay() {
+  document.getElementById("loading-overlay").style.display = "flex";
+}
 
-  // Lade-Overlay anzeigen, wenn eine Übersetzung angeklickt wird
-  document.querySelectorAll(".translation-link").forEach(function(button) {
-    button.addEventListener("click", function() {
-      document.getElementById("loading-overlay").style.display = "flex";
+if (window.Turbo) {
+  document.addEventListener("turbo:load", function() {
+    var translateForm = document.getElementById("translate-form");
+    if (translateForm) {
+      translateForm.addEventListener("submit", showLoadingOverlay);
+    }
+    document.querySelectorAll(".translation-link").forEach(function(button) {
+      button.addEventListener("click", showLoadingOverlay);
     });
   });
-});
+} else {
+  document.addEventListener("DOMContentLoaded", function() {
+    var translateForm = document.getElementById("translate-form");
+    if (translateForm) {
+      translateForm.addEventListener("submit", showLoadingOverlay);
+    }
+    document.querySelectorAll(".translation-link").forEach(function(button) {
+      button.addEventListener("click", showLoadingOverlay);
+    });
+  });
+}
+
 
 
 

@@ -20,6 +20,7 @@
             border-radius: 30px;
             padding: 15px;
             font-size: 1rem;
+            filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.5));
         }
         
         select {
@@ -49,18 +50,21 @@
         font-size: 1.1rem;
         cursor: pointer;
         transition: var(--anim);
+        filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.5));
     }
     .submit:hover{
         background-color: var(--yellow);
         color: var(--dark-blue);
     } 
     .legend {
-        padding: 12px;
+        margin-top: 200px;
+        padding: 0 1rem;
+    margin-bottom: 2rem;
         ul {
             list-style: none;
-            .green{color: var(--green);}
-            .orange{color: var(--orange);}
-            .red{color: var(--red);}
+            .green{color: var(--green); padding: 0; margin-top: 20px;}
+            .orange{color: var(--orange); padding: 0;}
+            .red{color: var(--red); padding: 0;}
         }
     } 
 }

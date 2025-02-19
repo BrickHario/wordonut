@@ -140,7 +140,7 @@ td {
         }
 
         .word-table {
-            width: 100%;
+            width: max-content;
             table-layout: fixed;
 
             thead th {

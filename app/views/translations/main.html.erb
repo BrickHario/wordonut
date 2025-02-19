@@ -2,8 +2,13 @@
 
 <main>
 <div id="loading-overlay" style="display: none;">
-    <div class="spinner"></div>
+  <div class="spinner-container">
+    <img src="<%= asset_path 'logo.svg' %>" alt="Loading background" class="spinner-bg">
+    <img src="<%= asset_path 'stars.svg' %>" alt="Loading spinner" class="spinner-rotating">
   </div>
+</div>
+
+
 <div class="info-menu">
                 <ul>
                     <li class="toggle-info" data-target="info" >
@@ -167,6 +172,20 @@
       <p>
         <%= @translated_synonyms&.join(", ").presence || "No synonyms found." %>
       </p>
+      <div class="legend">
+  <h3>Enter a word and its language to see its color-coded connections on the map of European languages.</h3>
+  <ul>
+    <li class="green">
+      Green: The word is almost identical in the highlighted language.
+    </li>
+    <li class="orange">
+      Orange: The word is moderately similar.
+    </li>
+    <li class="red">
+      Red: The word is not similar at all.
+    </li>
+  </ul>
+</div>
       <% else %>
         <div class="text">
           <h1>
@@ -194,20 +213,6 @@
   <div class="map">
     <%= render "map", colors: @colors %>
   </div>
-  <div class="legend">
-  <h3>Legend</h3>
-  <ul>
-    <li class="green">
-      Green: The word is almost identical in the highlighted language.
-    </li>
-    <li class="orange">
-      Orange: The word is moderately similar.
-    </li>
-    <li class="red">
-      Red: The word is not similar at all.
-    </li>
-  </ul>
-</div>
 <%= render "shared/footer" %>
   </section>
 </main>
