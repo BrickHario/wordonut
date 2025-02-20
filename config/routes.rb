@@ -14,7 +14,7 @@ get "profile", to: "users#edit", as: :profile
 patch "profile", to: "users#update"
   delete "profile", to: "users#destroy", as: :delete_account
 
-  patch "profile/update_email", to: "users#update_email", as: :update_email_profile
+  patch "profile/update_username", to: "users#update_username", as: :update_username_profile
   patch "profile/update_password", to: "users#update_password", as: :update_password_profile
 
   post "save_word", to: "words#save", as: :save_word

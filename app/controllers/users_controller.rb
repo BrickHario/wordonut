@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :require_login, only: [ :edit, :update_email, :update_password, :destroy ]
-  before_action :set_user, only: [ :edit, :update_email, :update_password, :destroy ]
+  before_action :require_login, only: [ :edit, :update_username, :update_password, :destroy ]
+  before_action :set_user, only: [ :edit, :update_username, :update_password, :destroy ]
 
   def signin
     @user = User.new
@@ -8,7 +8,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-
     if @user.save
       session[:user_id] = @user.id
       redirect_to root_path, notice: "Account successfully created."
@@ -21,9 +20,9 @@ class UsersController < ApplicationController
   def edit
   end
 
-  def update_email
-    if @user.update(email_params)
-      redirect_to profile_path, notice: "Email successfully updated."
+  def update_username
+    if @user.update(username_params)
+      redirect_to profile_path, notice: "Username successfully updated."
     else
       flash.now[:alert] = @user.errors.full_messages.to_sentence
       render :edit
@@ -31,7 +30,6 @@ class UsersController < ApplicationController
   end
 
   def update_password
-
     if password_params[:password] != password_params[:password_confirmation]
       flash.now[:alert] = "Passwords do not match."
       render :edit and return
@@ -67,11 +65,11 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation)
+    params.require(:user).permit(:username, :password, :password_confirmation)
   end
 
-  def email_params
-    params.require(:user).permit(:email)
+  def username_params
+    params.require(:user).permit(:username)
   end
 
   def password_params

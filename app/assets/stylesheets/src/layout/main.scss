@@ -164,6 +164,9 @@
         .lang-group {
             padding-top: 1vh;
         }
+        .lang-group:first-child {
+            transform: translateY(0);
+        }
         .map {
             width: 100%;
             position: absolute;

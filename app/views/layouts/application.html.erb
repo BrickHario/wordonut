@@ -18,7 +18,7 @@
   <%= yield :extra_css %>
   <%= javascript_importmap_tags %>
 </head>
-<body>
+<body data-logged-in="<%= @word_data.present? %>">
   <%# Flash-Messages werden als JS-Alert-Popup angezeigt und anschließend verworfen %>
   <% if flash[:alert].present? || flash[:notice].present? %>
     <script type="text/javascript">

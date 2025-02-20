@@ -59,49 +59,51 @@ const toggleInfo = () => {
     });
   });
 
-  // Direkt an alle SVG-Gruppen mit data-lang binden (ohne zusätzlichen DOMContentLoaded-Wrapper)
-  document.querySelectorAll("[data-lang]").forEach(el => {
-    el.addEventListener("click", () => {
-      // Öffne die Übersetzungs-Sektion
-      const translationSection = document.getElementById("translation");
-      const infoSection = document.getElementById("info");
-      const saveSection = document.getElementById("save");
-      if (translationSection) {
-        translationSection.style.display = "block";
-        infoSection.style.display = "none";
-        saveSection.style.display = "none";
-      }
-      // Lese den Sprachgruppennamen aus dem data-lang-Attribut, z.B. "Germanic"
-      const langGroup = el.getAttribute("data-lang");
-      // Suche das entsprechende Div (z.B. <div id="Germanic">)
-      const targetDiv = document.getElementById(langGroup);
-      if (targetDiv) {
-        targetDiv.style.display = "block";
-        targetDiv.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else {
-        console.error("Element with ID '" + langGroup + "' not found.");
-      }
-      const mapButton = Array.from(buttons).find(btn => btn.dataset.target === "translation");
-    if (mapButton) {
-      // Setze alle Buttons zurück
-      buttons.forEach(btn => {
-        btn.closest("li").style.backgroundColor = "";
-        const p = btn.querySelector("p");
-        if (p && btn.dataset.originalText) {
-          p.textContent = btn.dataset.originalText;
+  if (document.body.dataset.loggedIn === "true") {
+    document.querySelectorAll("[data-lang]").forEach(el => {
+      el.addEventListener("click", () => {
+        // Open the translation section
+        const translationSection = document.getElementById("translation");
+        const infoSection = document.getElementById("info");
+        const saveSection = document.getElementById("save");
+        if (translationSection) {
+          translationSection.style.display = "block";
+          infoSection.style.display = "none";
+          saveSection.style.display = "none";
         }
-        btn.classList.remove("active");
+        // Read the language group name from the data-lang attribute (e.g., "Germanic")
+        const langGroup = el.getAttribute("data-lang");
+        // Find the corresponding div (e.g., <div id="Germanic">)
+        const targetDiv = document.getElementById(langGroup);
+        if (targetDiv) {
+          targetDiv.style.display = "block";
+          targetDiv.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else {
+          console.error("Element with ID '" + langGroup + "' not found.");
+        }
+        const mapButton = Array.from(buttons).find(btn => btn.dataset.target === "translation");
+        if (mapButton) {
+          // Reset all buttons
+          buttons.forEach(btn => {
+            btn.closest("li").style.backgroundColor = "";
+            const p = btn.querySelector("p");
+            if (p && btn.dataset.originalText) {
+              p.textContent = btn.dataset.originalText;
+            }
+            btn.classList.remove("active");
+          });
+          // Activate the map button
+          mapButton.classList.add("active");
+          mapButton.closest("li").style.backgroundColor = "#E4B808";
+          const p = mapButton.querySelector("p");
+          if (p) {
+            p.textContent = "Map";
+          }
+        }
       });
-      // Aktiviere den Map-Button
-      mapButton.classList.add("active");
-      mapButton.closest("li").style.backgroundColor = "#E4B808";
-      const p = mapButton.querySelector("p");
-      if (p) {
-        p.textContent = "Map";
-      }
-    }
     });
-  });
+  }
+  
 };
 
 export default toggleInfo;
