@@ -1,8 +1,10 @@
 #map {
     background-color: var(--map-blue);
     .lang-group {
-        padding-top: 200px;
-    transform: translateY(-200px);
+            padding-top: 200px;
+        }
+    .lang-group:first-child {
+        transform: translateY(-200px);
     }
     form {
         display: flex;
@@ -159,6 +161,9 @@
         }
     }
     #map {
+        .lang-group {
+            padding-top: 1vh;
+        transform: translateY(-20vh);}
         .map {
             width: 100%;
             position: absolute;
