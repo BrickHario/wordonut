@@ -1,3 +1,4 @@
+
 <%= render "shared/navbar" %>
 
 <main>
@@ -5,17 +6,17 @@
     <h1>My Profile</h1>
     <div class="pro-form">
 
-      <%= form_for @user, url: update_username_profile_path, method: :patch, html: { class: "username-form", id: "edit_user_username", "data-turbo": "false" } do |f| %>
-        <h2>Change Username:</h2>
-        <%= f.text_field :username, autofocus: true, placeholder: (@user.username || "Your username"), required: true, id: "username", class: "form-control", minlength: 3, maxlength: 15 %>
-        <%= f.submit "Save", class: "save-btn btn" %>
+      <%= form_for @user, url: update_email_profile_path, method: :patch, html: { class: "email-form", id: "edit_user_email", "data-turbo": "false" } do |f| %>
+        <h2>Change Email:</h2>
+          <%= f.email_field :email, autofocus: true, placeholder: @user.email, required: true, id: "email", class: "form-control" %>
+          <%= f.submit "Save", class: "save-btn btn" %>
       <% end %>
 
       <%= form_for @user, url: update_password_profile_path, method: :patch, html: { class: "password-form", id: "edit_user_password", "data-turbo": "false" } do |f| %>
         <h2>Change Password:</h2>
-        <%= f.password_field :password, autocomplete: "new-password", placeholder: "Enter new password", required: true, id: "new-password", class: "form-control" %>
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm new password", required: true, id: "password-confirmation", class: "form-control" %>
-        <%= f.submit "Save", class: "save-btn btn" %>
+          <%= f.password_field :password, autocomplete: "new-password", placeholder: "Enter new password", required: true, id: "new-password", class: "form-control" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm new password", required: true, id: "password-confirmation", class: "form-control" %>
+          <%= f.submit "Save", class: "save-btn btn" %>
       <% end %>
 
       <%= button_to "Delete account", delete_account_path, method: :delete, class: "delete-btn btn btn-danger", "data-turbo": "false" %>
@@ -24,3 +25,7 @@
 </main>
 
 <%= render "shared/footer" %>
+
+
+
+
