@@ -64,7 +64,7 @@
       <% language_groups.each do |group_title, langs| %>
         <% group_translations = langs.map { |lang| [lang, @translations[lang]] }.to_h.compact %>
         <% if group_translations.any? %>
-          <div>
+          <div id="<%= group_title %>" class="lang-group">
             <h3><%= group_title %></h3>
             <ol>
               <% group_translations.each do |lang, translation| %>
@@ -82,7 +82,7 @@
           <% end %>
           <% if TranslationsController::TRANSLITERATION_LANGUAGES.include?(lang) %>
 
-          <span>(<%= translation[:original] %>) </span>
+          <span> (<%= translation[:original] %>) </span>
 
         <% end %>
                   <p style="color: <%= color %>;">

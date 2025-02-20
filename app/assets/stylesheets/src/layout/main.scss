@@ -1,6 +1,9 @@
 #map {
     background-color: var(--map-blue);
-   
+    .lang-group {
+        padding-top: 200px;
+    transform: translateY(-200px);
+    }
     form {
         display: flex;
         flex-direction: column;
@@ -8,7 +11,7 @@
         align-items: flex-end;
         padding: 2rem;
         gap: 1rem;
-        z-index: 3;
+        z-index: auto;
     }
     .input-group {
         position: relative;
@@ -58,7 +61,7 @@
     } 
     .legend {
         margin-top: 200px;
-        padding: 0 1rem;
+        padding: 0;
     margin-bottom: 2rem;
         ul {
             list-style: none;
@@ -161,10 +164,13 @@
             position: absolute;
             height: 500px;
         }
+        .legend {
+            padding: 0 1rem;
+        }
         form {
             align-items: flex-end;
             padding: 20px 0;
-            
+            z-index: 3;
         }
         .input-group {
             width: 95%;
